@@ -1,0 +1,51 @@
+#!/bin/bash
+
+ugage() {
+  echo "Usage: $0 [-d directory]"
+  exit 1
+}
+
+wallpaper_dir="$HOME/Pictures/wallpapers/"
+
+while getopts ":d:" opt; do
+  case $opt in
+  d)
+    if [ -d "$OPTARG" ]; then
+      wallpaper_dir="$OPTARG"
+    else
+      echo "Error: Directory $OPTARG does not exist."
+      usage
+    fi
+    ;;
+  \?)
+    echo "Invalid option: -$OPTARG"
+    usage
+    ;;
+  :)
+    echo "Option -$OPTARG requires an argument."
+    usage
+    ;;
+  esac
+done
+
+wal -s -t --recursive -i "$wallpaper_dir" || {
+  echo "Error: wal command failed."
+  exit 1
+}
+
+mainColor=$(sed -n '4p' ~/.cache/wal/colors) || {
+  echo "Error: Could not extract main color."
+  exit 1
+}
+
+sed -i "s/^set -g @mainColor .*/set -g @mainColor '$mainColor'/" ~/.tmux.conf || {
+  echo "Error: Could not update tmux.conf."
+  exit 1
+}
+
+tmux source-file ~/.tmux.conf || {
+  echo "Error: Could not reload tmux configuration."
+  exit 1
+}
+
+echo "Wallpaper and tmux configuration updated successfully."

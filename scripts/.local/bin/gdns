@@ -1,0 +1,20 @@
+#!/bin/bash
+
+adg() {
+    echo "nameserver 94.140.15.15" > /etc/resolv.conf
+    echo "nameserver 94.140.14.14" >> /etc/resolv.conf
+}
+
+local() {
+    echo "search lan" > /etc/resolv.conf
+    echo "nameserver 192.168.1.103" >> /etc/resolv.conf
+}
+
+
+if [ "$1" == "adg" ]; then
+    adg
+elif [ "$1" == "local" ]; then
+    local
+else
+    echo "Bad Usage : gdns local | adg"
+fi

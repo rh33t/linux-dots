@@ -1,0 +1,37 @@
+#!/bin/bash
+bar_color="#7f7fff"
+
+# get current brightess
+function get_brightness {
+    brightness=$(brightnessctl | grep "%" | cut -d "(" -f2 | cut -d "%" -f1)
+    echo $brightness
+}
+
+# Push Notification
+function send_notification {
+    bper=$(get_brightness)
+    # dunstify is used to send the notification
+    dunstify -t 1000 -r 2593 -u normal "🔆 $bper%" -h int:value:$bper -h string:hlcolor:$bar_color
+}
+
+
+# Main function => cmdArgs can be: up or down
+
+case $1 in
+up)
+    # Handle brightness up case
+    brightnessctl set +5%
+    send_notification
+    ;;
+    
+    down)
+    # handle brightness down case
+    brightnessctl set 5%-
+    send_notification
+
+    ;;
+
+    *)
+    echo "Invalid argument" > /dev/null
+    ;;
+esac

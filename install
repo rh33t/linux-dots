@@ -1,0 +1,13 @@
+#!/bin/env sh
+
+HOME_DIR=~
+
+function tripleASetup(){
+    if [ ! -d "$HOME_DIR/.local/bin" ]; then
+        mkdir -p "$HOME_DIR/.local/bin"
+    fi
+    
+    stow */ \
+    --ignore="shots" \
+    --ignore="packages"
+}

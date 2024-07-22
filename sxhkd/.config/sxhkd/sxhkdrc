@@ -1,0 +1,14 @@
+super + shift + b
+  polybar-msg cmd toggle
+
+super + twosuperior
+  ~/.local/bin/wal-hook
+
+super + t
+  alacritty --working-directory=/home/kraaakilo -e zsh
+
+XF86MonBrightnessDown
+  ~/.config/i3/scripts/brightness down
+
+XF86MonBrightnessUp
+  ~/.config/i3/scripts/brightness up
