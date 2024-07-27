@@ -39,6 +39,9 @@ alias pfn='ping ping-eu.ds.on.epicgames.com'
 alias pve="ssh -i ~/Labs/devops/pve root@192.168.1.10 -t 'tmux attach || tmux new'"
 alias ls='eza -al --group-directories-first --icons --git'
 alias pysrv='python3 -m http.server'
+alias y='yazi'
+alias cd='z'
+
 # Aliases | End
 
 # Custom functions | Start
@@ -53,6 +56,58 @@ update_repo()
     git commit -m "$@"
     git push
 }
+# Extract various archive formats
+extract() {
+    if [ -f "$1" ]; then
+        case "$1" in
+            *.tar.bz2) tar xjf "$1" ;;
+            *.tar.gz) tar xzf "$1" ;;
+            *.bz2) bunzip2 "$1" ;;
+            *.rar) unrar e "$1" ;;
+            *.gz) gunzip "$1" ;;
+            *.tar) tar xf "$1" ;;
+            *.tbz2) tar xjf "$1" ;;
+            *.tgz) tar xzf "$1" ;;
+            *.zip) unzip "$1" ;;
+            *.Z) uncompress "$1" ;;
+            *.7z) 7z x "$1" ;;
+            *) echo "'$1' cannot be extracted via extract()" ;;
+        esac
+    else
+        echo "'$1' is not a valid file"
+    fi
+}
+
+# Create a new directory and enter it
+mcd() {
+    mkdir -p "$1" && cd "$1"
+}
+
+# Display disk usage for all directories in the current path
+dus() {
+    du -sh * | sort -h
+}
+
+# Backup a file with a timestamp
+backup() {
+    if [ -f "$1" ]; then
+        cp "$1" "$1.bak.$(date +%F_%T)"
+    else
+        echo "File '$1' does not exist."
+    fi
+}
+
+# Watch a directory for changes
+watchdir() {
+    if [ $# -ne 1 ]; then
+        echo "Usage: watchdir <directory>"
+        return 1
+    fi
+    while inotifywait -r -e modify,create,delete "$1"; do
+        echo "Change detected in $1 at $(date)"
+    done
+}
+
 # Custom functions | End
 
 # PNPM | Start

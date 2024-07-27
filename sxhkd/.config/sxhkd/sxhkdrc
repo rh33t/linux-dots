@@ -1,11 +1,12 @@
 super + shift + b
   polybar-msg cmd toggle
 
-super + twosuperior
-  ~/.local/bin/wal-hook
+super + twosuperior ; { twosuperior,a,i }
+  { ~/.local/bin/wal-hook, ~/.local/bin/wal-hook -d ~/Pictures/wallpapers/LofiAlex/ , ~/.local/bin/wal-hook -d ~/Pictures/wallpapers/instance/}
+
 
 super + t
-  alacritty --working-directory=/home/kraaakilo -e zsh
+  kitty --working-directory=/home/kraaakilo -e zsh
 
 XF86MonBrightnessDown
   ~/.config/i3/scripts/brightness down

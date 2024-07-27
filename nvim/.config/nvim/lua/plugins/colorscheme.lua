@@ -1,24 +1,29 @@
 return {
   {
-    "catppuccin/nvim",
-    lazy = true,
+    "ellisonleao/gruvbox.nvim",
     priority = 1000,
-    name = "catppuccin",
-    config = function()
-      require("catppuccin").setup({
-        background = {
-          dark = "macchiato",
-        },
-        integrations = {
-          neotree = false
-        }
-      })
-    end
+    config = true
   },
+  -- {
+  --   "catppuccin/nvim",
+  --   lazy = true,
+  --   priority = 1000,
+  --   name = "catppuccin",
+  --   config = function()
+  --     require("catppuccin").setup({
+  --       background = {
+  --         dark = "macchiato",
+  --       },
+  --       integrations = {
+  --         neotree = false
+  --       }
+  --     })
+  --   end
+  -- },
   {
     "LazyVim/LazyVim",
     opts = {
-      colorscheme = "catppuccin",
+      colorscheme = "gruvbox",
     },
   }
 }

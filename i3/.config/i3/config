@@ -89,7 +89,7 @@ bindsym $mod+XF86AudioLowerVolume exec --no-startup-id amixer -D pulse sset Mast
 
 bindsym $mod+n exec --no-startup-id smile
 bindsym $mod+d exec --no-startup-id dmenu_run
-bindsym $mod+Return exec --no-startup-id alacritty
+bindsym $mod+Return exec --no-startup-id kitty zsh -c "tmux attach || tmux new -s 'TripleA'"
 bindsym $mod+e exec --no-startup-id /usr/bin/thunar
 bindsym $mod+w exec --no-startup-id /usr/bin/firefox-developer-edition
 bindsym $mod+Shift+s exec --no-startup-id gnome-screenshot -i
@@ -117,7 +117,8 @@ bindsym $mod+Ctrl+Left resize grow width 1 px or 1 ppt
 bindsym $mod+o mode "apps"
 mode "apps" {
     bindsym s exec --no-startup-id spotify
-    bindsym t exec --no-startup-id alacritty --working-directory=/home/kraaakilo -e zsh
+    bindsym d exec --no-startup-id torbrowser-launcher
+    bindsym t exec --no-startup-id kitty --working-directory=/home/kraaakilo -e zsh
     bindsym Escape mode "default"
     bindsym Return mode "default"
 }
@@ -155,7 +156,7 @@ workspace $ws6 output DVI-D-0
 workspace $ws7 output HDMI-0
 
 # Assign applications to workspaces.
-assign [class="Alacritty"] $ws1
+assign [class="kitty"] $ws1
 assign [class="Rofi"] $ws2
 assign [class="Code"] $ws2
 assign [class=jetbrains-(?i)] $ws2
@@ -176,7 +177,7 @@ assign [class="mpv"] $ws6
 assign [class=(?i)VirtualBox] $ws7
 
 # Automatic set focus on new windows and applications when they are opened on a workspace that is not currently focused.
-for_window [class=Alacritty] focus
+for_window [class=kitty] focus
 for_window [class=(?i)firefox] focus
 for_window [class=(?i)VirtualBox] focus
 for_window [class=Thunar] focus
@@ -186,6 +187,7 @@ for_window [class=vlc] focus
 for_window [class="VirtualBox Machine"] focus
 
 # Start applications on i3 startup or reload.
+exec_always --no-startup-id "xmodmap ~/.Xmodmap"
 exec_always --no-startup-id "killall polybar; polybar -r default"
 exec_always --no-startup-id sleep 1 && $HOME/.local/bin/wal-hook -d $HOME/Pictures/wallpapers/favourites
 exec_always --no-startup-id sleep 2 && $HOME/.local/bin/check-updates
@@ -258,8 +260,8 @@ client.placeholder      $bg     $bg     $fg     $bg     $bg
 client.background       $bg
 
 # Windows gaps
-gaps inner 0
-gaps outer 0
+gaps inner 3
+gaps outer 3
 smart_gaps off
 
 # Handle Mouse Sensitivity on my Thinkpad

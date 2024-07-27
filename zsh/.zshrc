@@ -24,5 +24,8 @@ HISTSIZE=10000
 SAVEHIST=10000
 setopt appendhistory
 
+# Zoxide
+eval "$(zoxide init zsh)" 
+
 # StarShip.rs
 eval "$(starship init zsh)"

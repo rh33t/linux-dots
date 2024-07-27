@@ -116,7 +116,7 @@ typeset -A menu
 menu=(
   [󰤆 Shutdown]="systemctl poweroff"
   [ Reboot]="systemctl reboot"
-  [ Suspend]="systemctl suspend"
+  [  Suspend]="systemctl suspend"
   [ Hibernate]="systemctl hibernate"
   [ Lock Screen]="betterlockscreen -l dim"
   [󰍃 Logout]="i3-msg exit"

@@ -5,7 +5,7 @@
 	<name>Open Terminal Here</name>
 	<submenu></submenu>
 	<unique-id>1719012241188927-1</unique-id>
-	<command>alacritty --working-directory=%f -e zsh</command>
+	<command>kitty --working-directory=%f -e zsh</command>
 	<description>Example for a custom action</description>
 	<range></range>
 	<patterns>*</patterns>
