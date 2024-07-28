@@ -187,7 +187,6 @@ for_window [class=vlc] focus
 for_window [class="VirtualBox Machine"] focus
 
 # Start applications on i3 startup or reload.
-exec_always --no-startup-id "xmodmap ~/.Xmodmap"
 exec_always --no-startup-id "killall polybar; polybar -r default"
 exec_always --no-startup-id sleep 1 && $HOME/.local/bin/wal-hook -d $HOME/Pictures/wallpapers/favourites
 exec_always --no-startup-id sleep 2 && $HOME/.local/bin/check-updates

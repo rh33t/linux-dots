@@ -38,7 +38,7 @@ mainColor=$(sed -n '4p' ~/.cache/wal/colors) || {
   exit 1
 }
 
-sed -i "s/^set -g @mainColor .*/set -g @mainColor '$mainColor'/" ~/.tmux.conf || {
+sed -i "s/^set -g @mainColor .*/set -g @mainColor '$mainColor'/" ~/.dotfiles/tmux/.tmux.conf || {
   echo "Error: Could not update tmux.conf."
   exit 1
 }
