@@ -259,8 +259,8 @@ client.placeholder      $bg     $bg     $fg     $bg     $bg
 client.background       $bg
 
 # Windows gaps
-gaps inner 3
-gaps outer 3
+gaps inner 0
+gaps outer 0
 smart_gaps off
 
 # Handle Mouse Sensitivity on my Thinkpad

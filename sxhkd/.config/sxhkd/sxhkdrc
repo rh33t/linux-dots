@@ -4,7 +4,6 @@ super + shift + b
 super + twosuperior ; { twosuperior,a,i }
   { ~/.local/bin/wal-hook, ~/.local/bin/wal-hook -d ~/Pictures/wallpapers/LofiAlex/ , ~/.local/bin/wal-hook -d ~/Pictures/wallpapers/instance/}
 
-
 super + t
   kitty --working-directory=/home/kraaakilo -e zsh
 

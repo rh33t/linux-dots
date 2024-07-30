@@ -38,6 +38,7 @@ read_only_style = "blue"
 home_symbol = "~"
 
 [git_status]
+ignore_submodules = true
 conflicted = "🏳"
 ahead = "🏎💨"
 behind = "😰"
