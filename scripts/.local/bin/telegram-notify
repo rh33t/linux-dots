@@ -1,0 +1,6 @@
+#!/bin/bash
+
+CHAT_ID="1551732857"
+MESSAGE="Check your running command"
+curl -s -X POST https://api.telegram.org/bot$TELEGRAM_BOT/sendMessage -d chat_id=$CHAT_ID -d text="$MESSAGE" >/dev/null
+notify-send "$MESSAGE"

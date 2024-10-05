@@ -2,7 +2,10 @@ super + shift + b
   polybar-msg cmd toggle
 
 super + twosuperior ; { twosuperior,a,i }
-  { ~/.local/bin/wal-hook, ~/.local/bin/wal-hook -d ~/Pictures/wallpapers/LofiAlex/ , ~/.local/bin/wal-hook -d ~/Pictures/wallpapers/instance/}
+  { ~/.local/bin/wal-hook, ~/.local/bin/wal-hook -d ~/Pictures/wallpapers/anime-girls/ , ~/.local/bin/wal-hook -d ~/Pictures/wallpapers/instance/}
+
+super + shift + s
+  scrot -s -e 'xclip -selection clipboard -t image/png -i $f && rm $f'
 
 super + t
   kitty --working-directory=/home/kraaakilo -e zsh

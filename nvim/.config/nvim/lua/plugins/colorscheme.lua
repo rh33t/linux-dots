@@ -1,12 +1,11 @@
 return {
   {
-    "rose-pine/neovim",
-    name = "rose-pine",
+    "tanvirtin/monokai.nvim",
   },
   {
     "LazyVim/LazyVim",
     opts = {
-      colorscheme = "rose-pine",
+      colorscheme = "monokai",
     },
   }
 }

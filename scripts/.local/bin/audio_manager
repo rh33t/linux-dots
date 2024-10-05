@@ -1,0 +1,40 @@
+#!/bin/bash
+
+# Replace with your audio source; Try :
+# pactl list sources | grep "Name: " | cut -d ":" -f2 | tr -d " "
+source="alsa_input.usb-145f_Trust_GXT_232_Microphone-00.mono-fallback"
+
+# Function to toggle mute status
+toggle_mute() {
+  status=$(pactl get-source-mute "$source" | cut -d ":" -f2 | tr -d " ")
+
+  if [[ $status == "no" ]]; then
+    pactl set-source-mute "$source" true
+    notify-send "  GXT Muted Successfully"
+  else
+    pactl set-source-mute "$source" false
+    notify-send " GXT Unmuted Successfully"
+  fi
+}
+
+# Function to echo the current mute status
+check_status() {
+  status=$(pactl get-source-mute "$source" | cut -d ":" -f2 | tr -d " ")
+  if [[ $status == "no" ]]; then
+    echo "%{F#00FF00} Unmuted%{F-}" # Green color for unmuted
+  else
+    echo "%{F#FF0000}  Muted%{F-}" # Red color for muted
+  fi
+}
+
+case "$1" in
+toggle)
+  toggle_mute
+  ;;
+status)
+  check_status
+  ;;
+*)
+  echo "Usage: $0 {toggle|status}"
+  ;;
+esac

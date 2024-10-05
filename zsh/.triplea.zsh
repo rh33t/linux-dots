@@ -9,12 +9,14 @@ export PATH=$PATH:$HOME/.pub-cache/bin
 export PATH=$PATH:$HOME/apps/cli
 export PATH=$PATH:$HOME/apps/sdks/flutter/bin
 export PATH=$PATH:$HOME/.local/bin
-export PATH=$PATH:$HOME/.cargo/bin/
+export PATH=$PATH:$HOME/.cargo/bin
+export PATH=$PATH:$HOME/go/bin
 export PATH="$PATH:/home/kraaakilo/.local/share/JetBrains/Toolbox/scripts"
 # PATH Variables | End
 
 # Aliases | Start
 alias v='nvim'
+alias opx='xdg-open'
 alias pbcopy='xsel --input --clipboard'
 alias pbpaste='xsel --output --clipboard'
 alias sfs='fzf --reverse --preview="cat {}" --walker-skip=.git,vendor,node_modules -i'
@@ -30,13 +32,14 @@ alias cdl='cd ~/Labs/; clear; tput setaf 4; echo -e "\033[1;34mHello Mr TripleA;
 alias cdv='cd ~/Labs/devops; clear; tput setaf 6; echo -e "\033[1;36mHello Mr TripleA;\033[0m \033[1;35mWelcome to the DevOps Lab!\033[0m"; tput sgr0'
 alias cdwin='cd ~/Labs/windows; clear; tput setaf 3; echo -e "\033[1;33mHello Mr TripleA;\033[0m \033[1;36mWelcome to the Windows Lab!\033[0m"; tput sgr0'
 alias cdm='cd ~/Labs/machine-learning/; clear; tput setaf 3; echo -e "\033[1;33mHello Mr TripleA;\033[0m \033[1;36mWelcome to the Machine Learning Lab!\033[0m"; tput sgr0'
-alias cdw='cd ~/workspace/; clear; tput setaf 3; echo -e "\033[1;33mHello Mr TripleA;\033[0m \033[1;36mWelcome to your Workspace directory!\033[0m"; tput sgr0'
+alias cdw='cd ~/Labs/workspace/; clear; tput setaf 3; echo -e "\033[1;33mHello Mr TripleA;\033[0m \033[1;36mWelcome to your Workspace directory!\033[0m"; tput sgr0'
 alias phpd='php -S localhost:7000 -ddisplay_errors=1 -dzend_extension=xdebug.so -dxdebug.remote_enable=1'
 alias dccall='docker stop $(docker ps -aq) > /dev/null && docker rm $(docker ps -aq) > /dev/null'
 alias dccdi='docker rmi $(docker images -f "dangling=true" -q)'
-alias pma='docker rm phpmyadmin --force && docker run --name phpmyadmin -d -e PMA_HOST=192.168.1.30 -p 9876:80 phpmyadmin'
+alias pmaup='docker-compose -f ~/Labs/workspace/pma/compose.yml up -d'
+alias pmadown='docker-compose -f ~/Labs/workspace/pma/compose.yml down'
 alias pfn='ping ping-eu.ds.on.epicgames.com'
-alias pve="ssh -i ~/Labs/devops/pve root@192.168.1.10 -t 'tmux attach || tmux new'"
+alias pve="export TERM=xterm && ssh -i ~/Labs/devops/pve root@192.168.1.10 -t 'tmux attach || tmux new'"
 alias ls='eza -al --group-directories-first --icons --git'
 alias pysrv='python3 -m http.server'
 alias y='yazi'
@@ -83,9 +86,25 @@ mcd() {
     mkdir -p "$1" && cd "$1"
 }
 
+# Count uniq entries from file
+cnu() {
+  if [ -f "$1" ]; then
+    echo "Results : " $(cat $1 | sort | uniq | wc -l)
+  else
+    echo "'$1' is not a valid file"
+  fi
+}
+
 # Display disk usage for all directories in the current path
 dus() {
     du -sh * | sort -h
+}
+
+# Copy file content to clipboard
+fcopy() {
+    if [ -f "$1" ]; then
+        cat $1 | pbcopy
+    fi
 }
 
 # Backup a file with a timestamp
@@ -120,3 +139,8 @@ esac
 
 bindkey -s ^f "tmux-sessionizer\n"
 bindkey -s ^k "efs\n"
+
+
+export PYENV_ROOT="$HOME/.pyenv"
+[[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
+eval "$(pyenv init -)"

@@ -15,11 +15,13 @@ return {
     ---@type lspconfig.options
     servers = {
       pyright = {},
+      clangd = {},
       intelephense = {},
-      tsserver = {},
+      ts_ls = {},
       gopls = {},
       stimulus_ls = {},
       rust_analyzer = {},
+      csharp_ls = {},
     },
     setup = {
       tsserver = function(_, opts)
