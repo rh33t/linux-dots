@@ -69,8 +69,8 @@ bindsym $mod+d exec --no-startup-id dmenu_run
 bindsym $mod+Return exec --no-startup-id kitty zsh -c "tmux attach || tmux new -s 'daily'"
 bindsym $mod+e exec --no-startup-id /usr/bin/thunar
 bindsym $mod+w exec --no-startup-id /usr/bin/firefox
-bindsym F10 exec --no-startup-id gnome-screenshot -i
-bindsym F12 exec --no-startup-id ~/.local/bin/audio_manager toggle
+bindsym $mod+F10 exec --no-startup-id gnome-screenshot -i
+bindsym $mod+F12 exec --no-startup-id ~/.local/bin/audio_manager toggle
 bindsym $mod+l exec --no-startup-id exec betterlockscreen -l dim
 bindsym $mod+Shift+e exec --no-startup-id ~/.config/i3/scripts/powermenu
 bindsym $mod+Shift+p exec --no-startup-id ~/.config/i3/scripts/power-profiles
@@ -96,9 +96,7 @@ bindsym $mod+o mode "apps"
 mode "apps" {
     bindsym s exec --no-startup-id spotify
     bindsym d exec --no-startup-id torbrowser-launcher
-    bindsym z exec --no-startup-id zen-browser
     bindsym r exec --no-startup-id rhythmbox
-    bindsym t exec --no-startup-id kitty --working-directory=/home/kraaakilo -e zsh
     bindsym Escape mode "default"
     bindsym Return mode "default"
 }
@@ -134,13 +132,14 @@ workspace $ws4 output DVI-D-0
 workspace $ws5 output DP-0
 workspace $ws6 output DVI-D-0
 workspace $ws7 output DP-0
+workspace $ws8 output DVI-D-0
+workspace $ws10 output DP-0
 
 # Assign applications to workspaces.
 assign [class="kitty"] $ws1
 assign [class="Code"] $ws2
 assign [class=jetbrains-(?i)] $ws2
 assign [class="Thunar"] $ws2
-assign [class="zen"] $ws2
 assign [class="(?i)firefox"] $ws3
 assign [class="(?i)chrome"] $ws2
 assign [class="TelegramDesktop"] $ws4
@@ -156,6 +155,8 @@ assign [class="Netflix"] $ws6
 assign [class="vlc"] $ws6
 assign [class="mpv"] $ws6
 assign [class=(?i)VirtualBox] $ws7
+assign [class="obs"] $ws8
+assign [class="draw.io"] $ws10
 
 # Automatic set focus on new windows and applications when they are opened on a workspace that is not currently focused.
 for_window [class=kitty] focus
@@ -179,39 +180,21 @@ exec_always --no-startup-id sleep 8 && picom --config ~/.config/picom/picom.conf
 exec_always --no-startup-id "killall sxhkd; sxhkd"
 exec --no-startup-id dex --autostart --environment i3
 exec --no-startup-id /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
-exec --no-startup-id ~/apps/cli/updater
 exec --no-startup-id ~/.config/i3/scripts/monitors
+exec --no-startup-id ~/.local/bin/mproxmox
 exec --no-startup-id /usr/bin/dunst --config ~/.config/dunst/dunstrc
 exec --no-startup-id sleep 5 && /usr/bin/firefox
-
-# Power And Screen Management
-# Disable the default screen saver
-exec --no-startup-id xset s off
-# Disable DPMS (Energy Star) features to reset the values
-exec --no-startup-id xset -dpms
-
-# Set the screen saver to trigger after 600 seconds (10 minutes)
-exec --no-startup-id xset s 600 600
-
-# Enable DPMS
-exec --no-startup-id xset +dpms
-
-# Set DPMS timeouts: standby disabled, suspend disabled, off after 15 minutes
-exec --no-startup-id xset dpms 0 0 900
-
-# Start autolock with a 45-minutes timer
-exec --no-startup-id xautolock -time 45 -locker "betterlockscreen -l dim"
 
 # Windows Rules
 for_window [class=".*"] move position center, border pixel 1
 for_window [title="^Welcome to.*"] floating enable
-for_window [title="Notion - Command Search"] border pixel 0
 for_window [class="Yad" instance="yad"] floating enable
 for_window [class="Galculator" instance="galculator"] floating enable
 for_window [class="Blueberry.py" instance="blueberry.py"] floating enable
 for_window [class="copyq" instance="copyq"] floating enable, resize set 800 600, move position center
 for_window [class="Anydesk"] floating enable
 for_window [class="Gnome-disks"] floating enable, resize set 800 600
+for_window [class="Nwg-look"] floating enable, resize set 800 600, move position center
 for_window [title="Notion - Command Search"] floating enable, resize set 800 600
 for_window [class="smile"] floating enable, resize set 400 500
 for_window [class="Gnome-screenshot"] floating enable, resize set 800 600
@@ -220,7 +203,8 @@ for_window [class="pavucontrol"] floating enable
 for_window [class="qt5ct" instance="qt5ct"] floating enable
 for_window [class="qt6ct" instance="qt6ct"] floating enable
 for_window [class="Pamac-manager"] floating enable
-for_window [class="matplotlib"] floating enable
+for_window [class="Nm-connection-editor"] floating enable, resize set 800 600
+for_window [class="Arandr"] floating enable, resize set 800 600
 for_window [class="easyeffects"] floating enable
 for_window [window_role="About"] floating enable
 for_window [window_role="(?i)GtkFileChooserDialog"] resize set 800 600

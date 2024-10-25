@@ -172,7 +172,8 @@ class TripleACTFManager:
             os.chdir(challenge_directory)
 
             self.print_section("Challenge Ready!", "success")
-            print(f"{Fore.GREEN}📂 Working directory: {Fore.WHITE}{challenge_directory}")
+            os.system(f"echo {challenge_directory} | pbcopy")
+            print(f"{Fore.GREEN}📂 Working directory has been pasted to your clipboard: {Fore.WHITE}{challenge_directory}")
             print(f"\n{Fore.YELLOW}🚀 Time to hack! May the flags be with you! 🏁{Style.RESET_ALL}")
 
         except KeyboardInterrupt:

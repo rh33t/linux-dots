@@ -1,13 +1,85 @@
 #!/bin/bash
 
-ping_output=$(ping ping-eu.ds.on.epicgames.com -c 4)
-ping=$(echo "$ping_output" | grep -oP 'time=\K\d+' | tail -1)
-
+# Configuration
 CHAT_ID="1551732857"
-MESSAGE="Ping = $ping; 🎮 Let's play 🎊"
+PING_HOST="ping-eu.ds.on.epicgames.com"
+PING_COUNT=4
+MAX_PING=120
 LOG_FILE="/tmp/ping.txt"
 
-if [ "$ping" -lt 120 ]; then
-	curl -s -X POST https://api.telegram.org/bot$TELEGRAM_BOT/sendMessage -d chat_id=$CHAT_ID -d text="$MESSAGE" >/dev/null
-	notify-send "$MESSAGE"
+# Function to find a gaming/network icon
+find_icon() {
+  local icon_names=("applications-games" "input-gaming" "network-idle" "network")
+  local icon_paths=(
+    "/usr/share/icons/Papirus/48x48/apps"
+    "/usr/share/icons/Papirus/48x48/devices"
+    "/usr/share/icons/hicolor/48x48/apps"
+    "/usr/share/icons/gnome/48x48/apps"
+  )
+
+  for name in "${icon_names[@]}"; do
+    for path in "${icon_paths[@]}"; do
+      if [ -f "$path/$name.svg" ]; then
+        echo "$path/$name.svg"
+        return 0
+      elif [ -f "$path/$name.png" ]; then
+        echo "$path/$name.png"
+        return 0
+      fi
+    done
+  done
+  echo ""
+}
+
+# Get current timestamp
+TIMESTAMP=$(date '+%Y-%m-%d %H:%M:%S')
+
+# Run ping and get the last ping value
+ping_output=$(ping -c $PING_COUNT $PING_HOST 2>&1)
+if [ $? -ne 0 ]; then
+  echo "[$TIMESTAMP] Error: Ping failed" >>"$LOG_FILE"
+  echo "$ping_output" >>"$LOG_FILE"
+  exit 1
+fi
+
+# Get the last ping value
+last_ping=$(echo "$ping_output" | grep -oP 'time=\K[0-9.]+' | tail -1)
+
+if [ -z "$last_ping" ]; then
+  echo "[$TIMESTAMP] Error: Could not parse ping value" >>"$LOG_FILE"
+  exit 1
+fi
+
+# Create message
+MESSAGE="🎮 Ping = ${last_ping}ms"
+
+# Check if ping is below threshold
+if (($(echo "$last_ping < $MAX_PING" | bc -l))); then
+  MESSAGE+=" Let's play! 🎊"
+
+  # Find notification icon
+  NOTIFICATION_ICON=$(find_icon)
+
+  # Send Telegram message
+  if [ -n "$TELEGRAM_BOT" ]; then
+    curl -s -X POST \
+      "https://api.telegram.org/bot$TELEGRAM_BOT/sendMessage" \
+      -d "chat_id=$CHAT_ID" \
+      -d "text=$MESSAGE" \
+      -d "parse_mode=HTML" >/dev/null
+  else
+    echo "[$TIMESTAMP] Error: TELEGRAM_BOT token not set" >>"$LOG_FILE"
+  fi
+
+  # Send desktop notification
+  if [ -n "$NOTIFICATION_ICON" ]; then
+    notify-send --icon="$NOTIFICATION_ICON" "Game Server Ping" "$MESSAGE"
+  else
+    notify-send "Game Server Ping" "$MESSAGE"
+  fi
+
+  # Log success
+  echo "[$TIMESTAMP] $MESSAGE" >>"$LOG_FILE"
+else
+  echo "[$TIMESTAMP] High ping: ${last_ping}ms" >>"$LOG_FILE"
 fi

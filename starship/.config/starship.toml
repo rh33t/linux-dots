@@ -17,6 +17,7 @@ show_always = true
 
 [python]
 symbol = ' '
+format = 'via [🐍 $version]($style) '
 pyenv_version_name = true
 
 [hostname]
@@ -25,7 +26,7 @@ format = '$username on [$hostname](bold red)'
 disabled = false
 
 [character] # The name of the module we are configuring is 'character'
-success_symbol = '[](bold yellow)'
+success_symbol = '[](bold blue)'
 error_symbol = '[](bold red)'
 
 # Disable the package module, hiding it from the prompt completely

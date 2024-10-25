@@ -1,18 +1,60 @@
 #!/bin/bash
 
+# Script configuration
 appName="Update Notifier"
 
-# Use checkupdates for official repository updates
-repoUpdateCount=$(checkupdates | wc -l)
+# Icon paths - using standard system icons that should be available
+# These paths are typically valid on most Linux systems
+updateIcon="/usr/share/icons/Papirus/48x48/apps/system-software-update.svg"
+upToDateIcon="/usr/share/icons/Papirus/48x48/apps/dialog-information.svg"
 
-# Use yay for AUR updates
-aurUpdateCount=$(yay -Qua | wc -l)
+# Function to find the first available icon
+find_icon() {
+  local icon_names=("$@")
+  local icon_paths=(
+    "/usr/share/icons/Papirus/48x48/apps"
+    "/usr/share/icons/gnome/48x48/status"
+    "/usr/share/icons/hicolor/48x48/apps"
+  )
 
-# Calculate total updates
+  for icon_name in "${icon_names[@]}"; do
+    for path in "${icon_paths[@]}"; do
+      if [ -f "$path/$icon_name.svg" ]; then
+        echo "$path/$icon_name.svg"
+        return 0
+      elif [ -f "$path/$icon_name.png" ]; then
+        echo "$path/$icon_name.png"
+        return 0
+      fi
+    done
+  done
+
+  # Fallback icon if none found
+  echo "/usr/share/icons/hicolor/48x48/apps/dialog-information.png"
+}
+
+# Get the appropriate icons
+updateIcon=$(find_icon "system-software-update" "software-update-available")
+upToDateIcon=$(find_icon "dialog-information" "info")
+
+# Check for updates
+repoUpdateCount=$(checkupdates 2>/dev/null | wc -l)
+aurUpdateCount=$(yay -Qua 2>/dev/null | wc -l)
 totalUpdateCount=$((repoUpdateCount + aurUpdateCount))
 
+# Create notification message
 if [ "$totalUpdateCount" -gt 0 ]; then
-    notify-send --app-name="$appName" -i "system-software-update" "$totalUpdateCount Updates Available" "There are $repoUpdateCount repo and $aurUpdateCount AUR updates available."
+  notify-send \
+    --app-name="$appName" \
+    --icon="$updateIcon" \
+    --urgency=normal \
+    "$totalUpdateCount Updates Available" \
+    "There are $repoUpdateCount repo and $aurUpdateCount AUR updates available."
 else
-    notify-send --app-name="$appName" -i "dialog-information" 'System Up-to-Date' 'No updates are available at this time.'
+  notify-send \
+    --app-name="$appName" \
+    --icon="$upToDateIcon" \
+    --urgency=low \
+    "System Up-to-Date" \
+    "No updates are available at this time."
 fi

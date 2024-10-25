@@ -21,9 +21,9 @@ toggle_mute() {
 check_status() {
   status=$(pactl get-source-mute "$source" | cut -d ":" -f2 | tr -d " ")
   if [[ $status == "no" ]]; then
-    echo "%{F#00FF00} Unmuted%{F-}" # Green color for unmuted
+    echo "%{F#00FF00}%{F-}" # Green color for unmuted
   else
-    echo "%{F#FF0000}  Muted%{F-}" # Red color for muted
+    echo "%{F#FF0000}%{F-}" # Red color for muted
   fi
 }
 

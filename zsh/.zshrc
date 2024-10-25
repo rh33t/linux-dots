@@ -1,20 +1,21 @@
 export ZSH="$HOME/.oh-my-zsh"
-export FPATH="~/apps/cli/completions/zsh:$FPATH"
+
+ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=#757575'
 
 # ZSH plugins
 plugins=(
-    zsh-autosuggestions
-    zsh-syntax-highlighting
-    archlinux
-    git
-    laravel
+  zsh-autosuggestions
+  zsh-syntax-highlighting
+  archlinux
+  git
+  laravel
 )
 
 source $ZSH/oh-my-zsh.sh
 
 # Custom configuration
 if [ -f ~/.triplea.zsh ]; then
-    source ~/.triplea.zsh
+  source ~/.triplea.zsh
 fi
 
 # Fuzzy search history

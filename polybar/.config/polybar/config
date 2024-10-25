@@ -27,7 +27,7 @@ separator-foreground = ${colors.disabled}
 font-0 = "Roboto:size=12;1"
 font-1 = JetBrainsMono Nerd Font:size=11;1
 modules-left = i3workspaces
-modules-right = network microphone spotify battery pulseaudio date systray
+modules-right = network spotify battery pulseaudio date microphone systray
 modules-center = 
 cursor-click = pointer
 cursor-scroll = ns-resize
@@ -43,7 +43,7 @@ click-right = wal -s -t --recursive -i $HOME/Pictures/wallpapers/favourites/
 
 [module/systray]
 type = internal/tray
-format-margin = 8pt
+format-margin = 2pt
 tray-spacing = 5pt
 
 [module/xwindow]
@@ -141,8 +141,8 @@ format-prefix = "   "
 format-prefix-foreground = "#1db954"
 format = <label>
 exec = ~/.config/polybar/scripts/scroll_spotify_status.sh
-click-left = playerctl play-pause -p spotify
-click-right = i3-msg "[class=\"Spotify\"] focus"
+click-right = playerctl play-pause -p spotify
+click-left = i3-msg "[class=\"Spotify\"] focus"
 scroll-down = playerctl previous -p spotify
 scroll-up = playerctl next -p spotify
 

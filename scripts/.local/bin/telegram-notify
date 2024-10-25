@@ -1,6 +1,84 @@
 #!/bin/bash
 
+# Configuration
 CHAT_ID="1551732857"
-MESSAGE="Check your running command"
-curl -s -X POST https://api.telegram.org/bot$TELEGRAM_BOT/sendMessage -d chat_id=$CHAT_ID -d text="$MESSAGE" >/dev/null
-notify-send "$MESSAGE"
+
+# Function to find a suitable notification icon
+find_notification_icon() {
+  local icon_names=("notification" "preferences-system-notifications" "dialog-information" "notify")
+  local icon_paths=(
+    "/usr/share/icons/Papirus/48x48/apps"
+    "/usr/share/icons/Papirus/symbolic/apps"
+    "/usr/share/icons/hicolor/48x48/apps"
+    "/usr/share/icons/gnome/48x48/status"
+    "/usr/share/icons/hicolor/symbolic/apps"
+  )
+
+  for name in "${icon_names[@]}"; do
+    for path in "${icon_paths[@]}"; do
+      if [ -f "$path/$name.svg" ]; then
+        echo "$path/$name.svg"
+        return 0
+      elif [ -f "$path/$name.png" ]; then
+        echo "$path/$name.png"
+        return 0
+      fi
+    done
+  done
+
+  # If no specific icon found, try to find any notification-related icon
+  for path in "${icon_paths[@]}"; do
+    local found_icon=$(find "$path" -type f \( -name "*notification*.svg" -o -name "*notification*.png" \) -print -quit 2>/dev/null)
+    if [ -n "$found_icon" ]; then
+      echo "$found_icon"
+      return 0
+    fi
+  done
+
+  # Return empty if no icon found
+  echo ""
+}
+
+# Get notification icon
+NOTIFICATION_ICON=$(find_notification_icon)
+
+# Check if a message was provided as an argument
+if [ $# -eq 0 ]; then
+  MESSAGE="No message provided"
+else
+  # Combine all arguments into a single message
+  MESSAGE="$*"
+fi
+
+# Get current date and time
+TIMESTAMP=$(date '+%Y-%m-%d %H:%M:%S')
+
+# Format the message for Telegram
+FORMATTED_MESSAGE="📢 System Notification
+------------------
+🕒 Time: $TIMESTAMP
+📝 Message: $MESSAGE
+💻 Host: $(hostname)
+👤 User: $(whoami)"
+
+# Send to Telegram
+if [ -z "$TELEGRAM_BOT" ]; then
+  echo "Error: TELEGRAM_BOT environment variable is not set"
+else
+  curl -s -X POST \
+    "https://api.telegram.org/bot$TELEGRAM_BOT/sendMessage" \
+    -d "chat_id=$CHAT_ID" \
+    -d "text=$FORMATTED_MESSAGE" \
+    -d "parse_mode=HTML" >/dev/null
+fi
+
+# Send local notification with icon
+if [ -n "$NOTIFICATION_ICON" ]; then
+  notify-send --icon="$NOTIFICATION_ICON" "System Notification" "$MESSAGE"
+else
+  # Fallback to no icon if none found
+  notify-send "System Notification" "$MESSAGE"
+fi
+
+# Log the notification
+echo "[$TIMESTAMP] $MESSAGE" >>"$HOME/.notification_logs"

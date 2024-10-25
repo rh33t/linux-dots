@@ -1,8 +1,11 @@
 super + shift + b
   polybar-msg cmd toggle
 
-super + twosuperior ; { twosuperior,a,i }
-  { ~/.local/bin/wal-hook, ~/.local/bin/wal-hook -d ~/Pictures/wallpapers/anime-girls/ , ~/.local/bin/wal-hook -d ~/Pictures/wallpapers/instance/}
+super + shift + equal ; { equal,a,i }
+  { wal -s -i ~/Pictures/wallpapers/favourites, wal -s -i ~/Pictures/wallpapers/anime-girls/, wal -s -i ~/Pictures/wallpapers/LofiAlexandra/}
+
+super + shift + o
+  obsidian
 
 super + shift + s
   scrot -s -e 'xclip -selection clipboard -t image/png -i $f && rm $f'

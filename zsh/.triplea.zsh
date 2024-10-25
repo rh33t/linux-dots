@@ -12,11 +12,13 @@ export PATH=$PATH:$HOME/.local/bin
 export PATH=$PATH:$HOME/.cargo/bin
 export PATH=$PATH:$HOME/go/bin
 export PATH="$PATH:/home/kraaakilo/.local/share/JetBrains/Toolbox/scripts"
+export CHROME_EXECUTABLE=/usr/bin/google-chrome-stable
 # PATH Variables | End
 
 # Aliases | Start
 alias v='nvim'
 alias opx='xdg-open'
+alias p='python3'
 alias pbcopy='xsel --input --clipboard'
 alias pbpaste='xsel --output --clipboard'
 alias sfs='fzf --reverse --preview="cat {}" --walker-skip=.git,vendor,node_modules -i'
@@ -50,40 +52,40 @@ alias cd='z'
 # Custom functions | Start
 fcommit()
 {
-    git add .
-    git commit -m "$@"
+  git add .
+  git commit -m "$@"
 }
 update_repo()
 {
-    git add .
-    git commit -m "$@"
-    git push
+  git add .
+  git commit -m "$@"
+  git push
 }
 # Extract various archive formats
 extract() {
-    if [ -f "$1" ]; then
-        case "$1" in
-            *.tar.bz2) tar xjf "$1" ;;
-            *.tar.gz) tar xzf "$1" ;;
-            *.bz2) bunzip2 "$1" ;;
-            *.rar) unrar e "$1" ;;
-            *.gz) gunzip "$1" ;;
-            *.tar) tar xf "$1" ;;
-            *.tbz2) tar xjf "$1" ;;
-            *.tgz) tar xzf "$1" ;;
-            *.zip) unzip "$1" ;;
-            *.Z) uncompress "$1" ;;
-            *.7z) 7z x "$1" ;;
-            *) echo "'$1' cannot be extracted via extract()" ;;
-        esac
-    else
-        echo "'$1' is not a valid file"
-    fi
+  if [ -f "$1" ]; then
+    case "$1" in
+      *.tar.bz2) tar xjf "$1" ;;
+      *.tar.gz) tar xzf "$1" ;;
+      *.bz2) bunzip2 "$1" ;;
+      *.rar) unrar e "$1" ;;
+      *.gz) gunzip "$1" ;;
+      *.tar) tar xf "$1" ;;
+      *.tbz2) tar xjf "$1" ;;
+      *.tgz) tar xzf "$1" ;;
+      *.zip) unzip "$1" ;;
+      *.Z) uncompress "$1" ;;
+      *.7z) 7z x "$1" ;;
+      *) echo "'$1' cannot be extracted via extract()" ;;
+    esac
+  else
+    echo "'$1' is not a valid file"
+  fi
 }
 
 # Create a new directory and enter it
 mcd() {
-    mkdir -p "$1" && cd "$1"
+  mkdir -p "$1" && cd "$1"
 }
 
 # Count uniq entries from file
@@ -97,34 +99,34 @@ cnu() {
 
 # Display disk usage for all directories in the current path
 dus() {
-    du -sh * | sort -h
+  du -sh * | sort -h
 }
 
 # Copy file content to clipboard
 fcopy() {
-    if [ -f "$1" ]; then
-        cat $1 | pbcopy
-    fi
+  if [ -f "$1" ]; then
+    cat $1 | pbcopy
+  fi
 }
 
 # Backup a file with a timestamp
 backup() {
-    if [ -f "$1" ]; then
-        cp "$1" "$1.bak.$(date +%F_%T)"
-    else
-        echo "File '$1' does not exist."
-    fi
+  if [ -f "$1" ]; then
+    cp "$1" "$1.bak.$(date +%F_%T)"
+  else
+    echo "File '$1' does not exist."
+  fi
 }
 
 # Watch a directory for changes
 watchdir() {
-    if [ $# -ne 1 ]; then
-        echo "Usage: watchdir <directory>"
-        return 1
-    fi
-    while inotifywait -r -e modify,create,delete "$1"; do
-        echo "Change detected in $1 at $(date)"
-    done
+  if [ $# -ne 1 ]; then
+    echo "Usage: watchdir <directory>"
+    return 1
+  fi
+  while inotifywait -r -e modify,create,delete "$1"; do
+    echo "Change detected in $1 at $(date)"
+  done
 }
 
 # Custom functions | End
@@ -144,3 +146,4 @@ bindkey -s ^k "efs\n"
 export PYENV_ROOT="$HOME/.pyenv"
 [[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
 eval "$(pyenv init -)"
+eval "$(pyenv virtualenv-init -)"
