@@ -1,0 +1,33 @@
+# Window settings
+window-decoration = false
+window-padding-x = 6
+window-padding-y = 0
+
+class = 3a.ghostty
+
+# Font configuration
+# Primary font family - using JetBrains Mono as the default
+font-family = "JetBrainsMono NF Regular"
+font-family-bold = "JetBrainsMono NF Bold"
+font-family-italic = "JetBrainsMono NF Italic"
+font-family-bold-italic = "JetBrainsMono NF Bold Italic"
+
+# Font size in points
+font-size = 14
+
+keybind = ctrl+shift+r=reload_config
+
+# unbind to forward keystrokes to tmux
+keybind = ctrl+shift+left=unbind
+keybind = ctrl+shift+right=unbind
+keybind = ctrl+shift+t=unbind
+
+# Mouse settings
+mouse-hide-while-typing = true
+
+theme = rose-pine
+confirm-close-surface = false
+
+command = tmux attach-session -t daily || tmux new-session -s daily
+
+background = 000000

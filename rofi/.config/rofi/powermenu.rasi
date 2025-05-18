@@ -3,36 +3,35 @@
  * Maintainer: joekamprad [joekamprad //a_t// endeavouros.com]
  *******************************************************/
 configuration {
-    font:            "JetBrains Mono 12";
-    show-icons:      true;
+    font:            "JetBrainsMono NF 13";
+    show-icons:      false;
     icon-theme:      "Qogir";
     scroll-method:   0;
     disable-history: false;
     sidebar-mode:    false;
 }
 
-@import "~/.config/rofi/arc_dark_transparent_colors.rasi"
-
-@import "~/.cache/wal/colors-rofi-dark"
+@import "~/.config/rofi/config.rasi"
+/* Insert theme modifications after this */
 
 window {
     background-color: @background;
     border:           0;
-    padding:          10;
+    padding:          0px 10px;
     transparency:     "real";
-    width:            200px;
+    width:            170px;
     location:         south;
     /*y-offset:       18;*/
     /*x-offset:       850;*/
 }
 listview {
-    lines:     7;
+    lines:     6;
     columns:   1;
     scrollbar: false;
 }
 element {
     border:  0;
-    padding: 8px;
+    padding: 4px 0px;
 }
 element-text {
     background-color: inherit;
@@ -74,8 +73,6 @@ element.alternate.active {
     background-color: @alternate-active-background;
     text-color:       @alternate-active-foreground;
 }
-
-
 scrollbar {
     width:        4px;
     border:       0;

@@ -71,13 +71,13 @@ function check_dependencies {
 function install_packages {
   OFFICIAL_PACKAGES="misc/packages/programs.list"
   total_packages=$(grep -vcE '^\s*(#|$)' "$OFFICIAL_PACKAGES")
-  current_package=0
+    current_package=0
 
-  echo -e "${CYAN}${INFO_SYMBOL} Reading package list from $OFFICIAL_PACKAGES.${NO_COLOR}"
+    echo -e "${CYAN}${INFO_SYMBOL} Reading package list from $OFFICIAL_PACKAGES.${NO_COLOR}"
 
-  while IFS= read -r package || [[ -n "$package" ]]; do
-    if [[ ! -z "$package" && "$package" != \#* ]]; then
-      ((current_package++))
+    while IFS= read -r package || [[ -n "$package" ]]; do
+      if [[ ! -z "$package" && "$package" != \#* ]]; then
+        ((current_package++))
       progress=$(echo "scale=2; $current_package / $total_packages * 100" | bc)
 
       if pacman -Q "$package" &>/dev/null; then
@@ -96,10 +96,10 @@ function install_packages {
         echo -e "${RED}${ERROR_SYMBOL} [ FAILED ] Failed to install $package.${NO_COLOR}"
         error_exit "Failed to install $package."
       fi
-    fi
-  done <"$OFFICIAL_PACKAGES"
-  echo -e "${GREEN}${SUCCESS_SYMBOL} Official packages installation completed successfully.${NO_COLOR}"
-}
+      fi
+    done <"$OFFICIAL_PACKAGES"
+    echo -e "${GREEN}${SUCCESS_SYMBOL} Official packages installation completed successfully.${NO_COLOR}"
+  }
 
 function install_oh_my_zsh {
   if ! is_package_installed "zsh"; then
@@ -163,33 +163,33 @@ function main {
 
   for option in "$@"; do
     case "$option" in
-    yay)
-      echo -e "${BOLD}${ARROW_SYMBOL} Starting yay installation...${NO_COLOR}"
-      install_yay
-      ;;
-    default)
-      echo -e "${BOLD}${ARROW_SYMBOL} Starting package installation...${NO_COLOR}"
-      install_packages
-      ;;
-    omz)
-      echo -e "${BOLD}${ARROW_SYMBOL} Starting Oh My Zsh installation...${NO_COLOR}"
-      install_oh_my_zsh
-      ;;
-    tmux)
-      echo -e "${BOLD}${ARROW_SYMBOL} Starting Tmux setup...${NO_COLOR}"
-      setup_tmux
-      ;;
-    all)
-      echo -e "${BOLD}${ARROW_SYMBOL} Starting full installation...${NO_COLOR}"
-      install_yay
-      install_packages
-      install_oh_my_zsh
-      setup_tmux
-      ;;
-    *)
-      echo -e "${RED}${ERROR_SYMBOL} Invalid option: $option${NO_COLOR}"
-      exit 1
-      ;;
+      yay)
+        echo -e "${BOLD}${ARROW_SYMBOL} Starting yay installation...${NO_COLOR}"
+        install_yay
+        ;;
+      default)
+        echo -e "${BOLD}${ARROW_SYMBOL} Starting package installation...${NO_COLOR}"
+        install_packages
+        ;;
+      omz)
+        echo -e "${BOLD}${ARROW_SYMBOL} Starting Oh My Zsh installation...${NO_COLOR}"
+        install_oh_my_zsh
+        ;;
+      tmux)
+        echo -e "${BOLD}${ARROW_SYMBOL} Starting Tmux setup...${NO_COLOR}"
+        setup_tmux
+        ;;
+      all)
+        echo -e "${BOLD}${ARROW_SYMBOL} Starting full installation...${NO_COLOR}"
+        install_yay
+        install_packages
+        install_oh_my_zsh
+        setup_tmux
+        ;;
+      *)
+        echo -e "${RED}${ERROR_SYMBOL} Invalid option: $option${NO_COLOR}"
+        exit 1
+        ;;
     esac
   done
 }

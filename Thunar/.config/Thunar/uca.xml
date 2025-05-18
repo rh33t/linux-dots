@@ -4,12 +4,23 @@
     <icon>utilities-terminal</icon>
     <name>Open Terminal Here</name>
     <submenu></submenu>
-    <unique-id>1719012241188927-1</unique-id>
+    <unique-id>1739533533819473-1</unique-id>
     <command>kitty --working-directory=%f -e zsh</command>
-    <description>Open terminal in current folder</description>
+    <description>Open Terminal in the current working directory</description>
     <range></range>
     <patterns>*</patterns>
     <startup-notify/>
     <directories/>
-    </action>
-  </actions>
+  </action>
+  <action>
+    <icon>video-x-generic</icon>
+    <name>Convert to MP4</name>
+    <submenu></submenu>
+    <unique-id>1739533533819473-2</unique-id>
+    <command>ffmpeg -i %f -c:v libx264 -c:a aac -preset slow -crf 23 "$(dirname %f)/$(basename %f | sed 's/\.[^.]*$//')_converted.mp4" &amp;&amp; notify-send "FFmpeg Conversion" "Conversion to MP4 complete for $(basename %f)!"</command>
+    <description>Convert selected file to MP4 format using ffmpeg</description>
+    <range>*</range>
+    <patterns>*.mp4;*.mkv;*.avi;*.mov;*.wmv;*.flv;*.webm</patterns>
+    <video-files/>
+  </action>
+</actions>

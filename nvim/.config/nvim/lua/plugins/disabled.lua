@@ -1,4 +1,10 @@
 return {
-  { "folke/noice.nvim", enabled = false },
-  { "friendly-snippets", enabled = false },
+  {
+    "folke/noice.nvim",
+    enabled = false,
+  },
+  {
+    "L3MON4D3/LuaSnip",
+    enabled = false,
+  },
 }

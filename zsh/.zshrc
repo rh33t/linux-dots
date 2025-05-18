@@ -6,7 +6,6 @@ ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=#757575'
 plugins=(
   zsh-autosuggestions
   zsh-syntax-highlighting
-  archlinux
   git
   laravel
 )
@@ -26,7 +25,18 @@ SAVEHIST=10000
 setopt appendhistory
 
 # Zoxide
-eval "$(zoxide init zsh)" 
+eval "$(zoxide init zsh)"
 
-# StarShip.rs
+# Starship
 eval "$(starship init zsh)"
+
+
+z() {
+  local dir=$(
+    zoxide query --list --score |
+      fzf --height 60% --layout reverse --info inline \
+      --nth 2.. --no-sort --query "$*" \
+      --bind 'enter:become:echo {2..}'
+    ) && cd "$dir"
+  }
+

@@ -79,6 +79,3 @@ else
   # Fallback to no icon if none found
   notify-send "System Notification" "$MESSAGE"
 fi
-
-# Log the notification
-echo "[$TIMESTAMP] $MESSAGE" >>"$HOME/.notification_logs"

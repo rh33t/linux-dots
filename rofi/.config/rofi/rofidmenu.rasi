@@ -1,28 +1,22 @@
-/*******************************************************
- * ROFI configs i3 Apps menu for EndeavourOS
- * Maintainer: joekamprad [joekamprad //a_t// endeavouros.com]
- *******************************************************/
+@import "~/.config/rofi/config.rasi"
 configuration {
-    font:                "Noto Sans Regular 10";
-    show-icons:          true;
+    font:                "Noto Sans Regular 13";
+    show-icons:          false;
     icon-theme:          "Qogir";
-    display-drun:        "Apps";
+    display-drun:        "run :)";
     drun-display-format: "{name}";
     scroll-method:       0;
     disable-history:     false;
     sidebar-mode:        false;
 }
-
-@import "~/.config/rofi/arc_dark_transparent_colors.rasi"
-
 window {
     background-color: @background;
     border:           0;
-    padding:          30;
+    padding:          10;
 }
 listview {
     lines:   10;
-    columns: 3;
+    columns: 1;
 }
 mainbox {
     border:  0;
@@ -89,7 +83,7 @@ element.alternate.active {
     text-color:       @alternate-active-foreground;
 }
 scrollbar {
-    width:        4px;
+    width:        2px;
     border:       0;
     handle-color: @normal-foreground;
     handle-width: 8px;

@@ -1,5 +1,5 @@
 # Font for window titles.
-font pango: Roboto 12
+font pango: Roboto 11
 
 # Set the mod key to the Win key & alt key to the Alt key.
 set $mod Mod4
@@ -23,6 +23,7 @@ bindsym $mod+7 workspace $ws7
 bindsym $mod+8 workspace $ws8
 bindsym $mod+9 workspace $ws9
 bindsym $mod+0 workspace $ws10
+bindsym $alt+1 workspace $ws11
 bindsym $mod+Tab workspace next
 bindsym $mod+Shift+Tab workspace prev
 
@@ -37,6 +38,7 @@ bindsym $mod+Shift+7 move container to workspace $ws7
 bindsym $mod+Shift+8 move container to workspace $ws8
 bindsym $mod+Shift+9 move container to workspace $ws9
 bindsym $mod+Shift+0 move container to workspace $ws10
+bindsym $mod+$alt+1 move container to workspace $ws11
 
 # Keybindings for different actions & applications.
 bindsym $mod+q kill
@@ -62,20 +64,27 @@ bindsym $mod+x [urgent=latest] focus
 bindsym $mod+Shift+n exec --no-startup-id ~/.config/i3/scripts/empty_workspace
 bindsym $mod+XF86AudioRaiseVolume exec --no-startup-id amixer -D pulse sset Master 1%+ && pkill -RTMIN+1 i3blocks
 bindsym $mod+XF86AudioLowerVolume exec --no-startup-id amixer -D pulse sset Master 1%- && pkill -RTMIN+1 i3blocks
+bindsym $mod+XF86MonBrightnessDown exec --no-startup-id ~/.config/i3/scripts/brightness down
+bindsym $mod+XF86MonBrightnessUp exec --no-startup-id ~/.config/i3/scripts/brightness up
 
-bindsym $mod+n exec --no-startup-id smile
+bindsym $mod+semicolon exec --no-startup-id smile
 bindsym $mod+v exec --no-startup-id copyq show
 bindsym $mod+d exec --no-startup-id dmenu_run
 bindsym $mod+Return exec --no-startup-id kitty zsh -c "tmux attach || tmux new -s 'daily'"
+bindsym $mod+t exec --no-startup-id kitty --working-directory=~ -e zsh
+bindsym $mod+Shift+Return exec --no-startup-id ghostty
 bindsym $mod+e exec --no-startup-id /usr/bin/thunar
-bindsym $mod+w exec --no-startup-id /usr/bin/firefox
-bindsym $mod+F10 exec --no-startup-id gnome-screenshot -i
+bindsym $mod+w exec --no-startup-id /usr/bin/brave
+bindsym $mod+F10 exec --no-startup-id flameshot gui
+bindsym $mod+Shift+s exec --no-startup-id flameshot gui -c
+bindsym $mod+Shift+o exec --no-startup-id obsidian
+bindsym $mod+Shift+b exec --no-startup-id polybar-msg cmd toggle
 bindsym $mod+F12 exec --no-startup-id ~/.local/bin/audio_manager toggle
 bindsym $mod+l exec --no-startup-id exec betterlockscreen -l dim
 bindsym $mod+Shift+e exec --no-startup-id ~/.config/i3/scripts/powermenu
 bindsym $mod+Shift+p exec --no-startup-id ~/.config/i3/scripts/power-profiles
-bindsym $mod+space exec --no-startup-id "rofi -show combi -modes combi -combi-modes 'window,drun' -config ~/.config/rofi/config.rasi"
-bindsym $alt+space exec --no-startup-id rofi -show window -config ~/.config/rofi/config.rasi
+bindsym $mod+space exec --no-startup-id "rofi -show drun -config ~/.config/rofi/rofidmenu.rasi"
+bindsym $alt+space exec --no-startup-id "rofi -show window -config ~/.config/rofi/rofidmenu.rasi"
 
 bindsym XF86AudioMicMute exec amixer sset Capture toggle
 bindsym XF86AudioPlay exec --no-startup-id playerctl play
@@ -92,11 +101,10 @@ bindsym $mod+Ctrl+Up resize grow height 1 px or 1 ppt
 bindsym $mod+Ctrl+Down resize shrink height 1 px or 1 ppt
 bindsym $mod+Ctrl+Left resize grow width 1 px or 1 ppt
 
-bindsym $mod+o mode "apps"
-mode "apps" {
-    bindsym s exec --no-startup-id spotify
-    bindsym d exec --no-startup-id torbrowser-launcher
-    bindsym r exec --no-startup-id rhythmbox
+bindsym $mod+o mode "utilities"
+mode "utilities" {
+    bindsym f exec --no-startup-id wal -s -i ~/Pictures/wallpapers/favourites
+    bindsym a exec --no-startup-id wal -s -i ~/Pictures/wallpapers/anime-girls/
     bindsym Escape mode "default"
     bindsym Return mode "default"
 }
@@ -118,30 +126,30 @@ set $ws3 "3"
 set $ws4 "4"
 set $ws5 "5"
 set $ws6 "6"
-set $ws7 "7"
+set $ws7 "7:vm"
 set $ws8 "8"
 set $ws9 "9"
 set $ws10 "10"
-
+set $ws11 "11:1337"
 
 # Assign workspaces to outputs.
-workspace $ws1 output DP-0
-workspace $ws2 output DP-0
-workspace $ws3 output DVI-D-0
-workspace $ws4 output DVI-D-0
-workspace $ws5 output DP-0
-workspace $ws6 output DVI-D-0
-workspace $ws7 output DP-0
-workspace $ws8 output DVI-D-0
-workspace $ws10 output DP-0
+workspace $ws1 output HDMI-0
+workspace $ws2 output HDMI-0
+workspace $ws3 output DP-0
+workspace $ws4 output DP-0
+workspace $ws5 output HDMI-0
+workspace $ws6 output DP-0
+workspace $ws7 output HDMI-0
+workspace $ws8 output DP-0
+workspace $ws10 output HDMI-0
+workspace $ws11 output HDMI-0
 
 # Assign applications to workspaces.
 assign [class="kitty"] $ws1
 assign [class="Code"] $ws2
 assign [class=jetbrains-(?i)] $ws2
 assign [class="Thunar"] $ws2
-assign [class="(?i)firefox"] $ws3
-assign [class="(?i)chrome"] $ws2
+assign [class="(?i)chrome"] $ws11
 assign [class="TelegramDesktop"] $ws4
 assign [class="Slack"] $ws4
 assign [class="thunderbird"] $ws4
@@ -157,10 +165,13 @@ assign [class="mpv"] $ws6
 assign [class=(?i)VirtualBox] $ws7
 assign [class="obs"] $ws8
 assign [class="draw.io"] $ws10
+assign [class="PacketTracer"] $ws10
+assign [class="(?i)brave" instance="brave-browser"] $ws3
+assign [class="Brave-browser" instance="crx_hnpfjngllnobngcgfapefoaidbinmjnm"] $ws4
 
 # Automatic set focus on new windows and applications when they are opened on a workspace that is not currently focused.
 for_window [class=kitty] focus
-for_window [class=(?i)firefox] focus
+for_window [class=(?i)brave] focus
 for_window [class=(?i)VirtualBox] focus
 for_window [class=Thunar] focus
 for_window [class=Thunderbird] focus
@@ -170,54 +181,63 @@ for_window [class="VirtualBox Machine"] focus
 
 # Start applications on i3 startup or reload.
 exec_always --no-startup-id autotiling
-exec_always --no-startup-id "killall polybar; polybar -r default"
+exec_always --no-startup-id "~/.config/i3/scripts/start-polybar"
 exec_always --no-startup-id "killall copyq; copyq --start-server"
-exec_always --no-startup-id sleep 1 && wal -s -i ~/Pictures/wallpapers/favourites/
-exec_always --no-startup-id sleep 2 && $HOME/.local/bin/check-updates
+exec_always --no-startup-id sleep 1 && wal -s -i ~/Pictures/wallpapers/favourites/Luffy_from_One_Piece_5160x2160.jpeg
+# exec_always --no-startup-id sleep 2 && $HOME/.local/bin/check-updates
 exec_always --no-startup-id sleep 8 && picom --config ~/.config/picom/picom.conf
 
 # Start applications on i3 startup.
-exec_always --no-startup-id "killall sxhkd; sxhkd"
+exec --no-startup-id ~/.config/i3/scripts/autolock
 exec --no-startup-id dex --autostart --environment i3
 exec --no-startup-id /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
+exec --no-startup-id /usr/bin/gnome-keyring-daemon --start --components=pkcs11,secrets,ssh
 exec --no-startup-id ~/.config/i3/scripts/monitors
-exec --no-startup-id ~/.local/bin/mproxmox
 exec --no-startup-id /usr/bin/dunst --config ~/.config/dunst/dunstrc
-exec --no-startup-id sleep 5 && /usr/bin/firefox
+exec --no-startup-id sleep 5 && /usr/bin/brave
+exec --no-startup-id xmodmap ~/.Xmodmap
+# make messages apps in tabbed layout
+exec --no-startup-id i3-msg "workspace 4; layout tabbed"
 
 # Windows Rules
 for_window [class=".*"] move position center, border pixel 1
-for_window [title="^Welcome to.*"] floating enable
-for_window [class="Yad" instance="yad"] floating enable
+for_window [class="kitty"] border pixel 0
+for_window [title="^Welcome to.*"] floating enable, move position center
+for_window [class="Yad" instance="yad"] floating enable, move position center
 for_window [class="Galculator" instance="galculator"] floating enable
-for_window [class="Blueberry.py" instance="blueberry.py"] floating enable
+for_window [class="Blueman-manager"] floating enable, resize set 800 600, move position center
 for_window [class="copyq" instance="copyq"] floating enable, resize set 800 600, move position center
-for_window [class="Anydesk"] floating enable
-for_window [class="Gnome-disks"] floating enable, resize set 800 600
+for_window [class="Anydesk"] floating enable, move position center
+for_window [class="Gnome-disks"] floating enable, resize set 800 600, move position center
 for_window [class="Nwg-look"] floating enable, resize set 800 600, move position center
-for_window [title="Notion - Command Search"] floating enable, resize set 800 600
-for_window [class="smile"] floating enable, resize set 400 500
-for_window [class="Gnome-screenshot"] floating enable, resize set 800 600
-for_window [class="Xsane" instance="xsane"] floating enable
-for_window [class="pavucontrol"] floating enable
-for_window [class="qt5ct" instance="qt5ct"] floating enable
-for_window [class="qt6ct" instance="qt6ct"] floating enable
-for_window [class="Pamac-manager"] floating enable
-for_window [class="Nm-connection-editor"] floating enable, resize set 800 600
-for_window [class="Arandr"] floating enable, resize set 800 600
-for_window [class="easyeffects"] floating enable
-for_window [window_role="About"] floating enable
+for_window [title="Notion - Command Search"] floating enable, resize set 800 600, move position center
+for_window [class="smile"] floating enable, resize set 400 500, move position center
+for_window [class="Gnome-screenshot"] floating enable, resize set 800 600, move position center
+for_window [class="Xsane" instance="xsane"] floating enable, move position center
+for_window [class="pavucontrol"] floating enable, move position center
+for_window [class="qt5ct" instance="qt5ct"] floating enable, move position center
+for_window [class="qt6ct" instance="qt6ct"] floating enable, move position center
+for_window [class="Pamac-manager"] floating enable, move position center
+for_window [class="Nm-connection-editor"] floating enable, resize set 800 600, move position center
+for_window [class="Arandr"] floating enable, resize set 800 600, move position center
+for_window [class="flameshot"] floating enable, resize set 800 600, move position center
+for_window [class="easyeffects"] floating enable, move position center
+for_window [class="Seahorse"] floating enable, move position center
+for_window [window_role="About"] floating enable, move position center
 for_window [window_role="(?i)GtkFileChooserDialog"] resize set 800 600
-for_window [window_role="Organizer"] floating enable
-for_window [window_role="Preferences"] floating enable
-for_window [window_role="bubble"] floating enable
-for_window [window_role="page-info"] floating enable
-for_window [window_role="pop-up"] floating enable
-for_window [window_role="task_dialog"] floating enable
-for_window [window_role="toolbox"] floating enable
-for_window [window_role="webconsole"] floating enable
-for_window [window_type="dialog"] floating enable
-for_window [window_type="menu"] floating enable
+for_window [window_role="Organizer"] floating enable, move position center
+for_window [window_role="Preferences"] floating enable, move position center
+for_window [window_role="bubble"] floating enable, move position center
+for_window [window_role="page-info"] floating enable, move position center
+for_window [window_role="pop-up"] floating enable, move position center
+for_window [window_role="task_dialog"] floating enable, move position center
+for_window [window_role="toolbox"] floating enable, move position center
+for_window [window_role="webconsole"] floating enable, move position center
+for_window [window_type="dialog"] floating enable, move position center
+for_window [window_type="menu"] floating enable, move position center
+for_window [class="Kvantum Manager"] floating enable,resize set 800 600, move position center
+for_window [class="Brave-browser" instance="crx_hnpfjngllnobngcgfapefoaidbinmjnm"] floating disable
+for_window [workspace="4"] layout tabbed
 
 set_from_resource $bg i3wm.color0 #f0f0f0
 set_from_resource $fg i3wm.color7 #f0f0f0
@@ -233,4 +253,4 @@ client.background       $bg
 # Windows gaps
 gaps inner 0
 gaps outer 0
-smart_gaps off
+smart_gaps on

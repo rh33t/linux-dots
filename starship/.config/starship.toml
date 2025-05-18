@@ -13,23 +13,23 @@ style_user = 'white bold'
 style_root = 'black bold'
 format = '[$user]($style)'
 disabled = false
-show_always = true
+show_always = false
 
 [python]
 symbol = ' '
-format = 'via [🐍 $version]($style) '
+format = 'via [ $version]($style) '
 pyenv_version_name = true
 
 [hostname]
 ssh_only = false
-format = '$username on [$hostname](bold red)'
-disabled = false
+format = '$username on [󰇄 $hostname](bold green)'
+disabled = true
 
-[character] # The name of the module we are configuring is 'character'
-success_symbol = '[](bold blue)'
-error_symbol = '[](bold red)'
+[character]
+success_symbol = '[➜](bold green)'
+error_symbol = '[✘](bold red)'
+vicmd_symbol = '[❮](bold blue)'
 
-# Disable the package module, hiding it from the prompt completely
 [package]
 disabled = true
 
@@ -52,7 +52,5 @@ staged = '[++\($count\)](green)'
 renamed = "👅"
 deleted = "🗑"
 
-[git_branch]
-symbol = " "
-style = "bold italic red"
-format = "[git:](bold blue)[\\(](bold blue)[$branch(:$remote_branch)]($style)[\\)](bold blue) "
+[aws]
+disabled = true

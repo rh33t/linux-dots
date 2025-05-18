@@ -1,4 +1,5 @@
-vim.o.tabstop = 2
-vim.o.shiftwidth = 2
-vim.o.softtabstop = 2
-vim.o.expandtab = true
+vim.opt.clipboard = ""
+vim.g.lazyvim_picker = "telescope"
+vim.g.snacks_animate = false
+vim.b.snacks_animate = false
+vim.g.ai_cmp = false

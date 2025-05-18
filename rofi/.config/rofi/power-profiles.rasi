@@ -3,36 +3,37 @@
  * Maintainer: joekamprad [joekamprad //a_t// endeavouros.com]
  *******************************************************/
 configuration {
-    font:            "JetBrains Mono 12";
-    show-icons:      true;
-    icon-theme:      "Qogir";
-    scroll-method:   0;
-    disable-history: false;
-    sidebar-mode:    false;
+    font:             "Noto Sans Regular 10";
+    show-icons:       false;
+    icon-theme:       "Qogir";
+    scroll-method:    0;
+    disable-history:  false;
+    fullscreen:       false;
+    hide-scrollbar:   true;
+    sidebar-mode:     false;
 }
 
-@import "~/.config/rofi/arc_dark_transparent_colors.rasi"
+@import "~/.config/rofi/config.rasi"
+/* Insert theme modifications after this */
 
-@import "~/.cache/wal/colors-rofi-dark"
 
 window {
     background-color: @background;
     border:           0;
     padding:          10;
     transparency:     "real";
-    width:            200px;
-    location:         south;
+    width:            170px;
+    location:         north;
     /*y-offset:       18;*/
     /*x-offset:       850;*/
 }
 listview {
-    lines:     4;
-    columns:   1;
-    scrollbar: false;
+    lines:   4;
+    columns: 1;
 }
 element {
     border:  0;
-    padding: 8px;
+    padding: 1px;
 }
 element-text {
     background-color: inherit;
@@ -74,8 +75,6 @@ element.alternate.active {
     background-color: @alternate-active-background;
     text-color:       @alternate-active-foreground;
 }
-
-
 scrollbar {
     width:        4px;
     border:       0;
@@ -117,12 +116,7 @@ inputbar {
 }
 textbox-prompt-colon {
     expand:     false;
-    str:        ":";
+    str:        "Set Power Profile:";
     margin:     0px 0.3em 0em 0em;
     text-color: @normal-foreground;
-}
-
-/*removes the text input line*/
-mainbox {
-  children: [listview];
 }

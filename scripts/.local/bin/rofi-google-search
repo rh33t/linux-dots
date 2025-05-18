@@ -1,0 +1,26 @@
+#!/usr/bin/env bash
+
+urlencode() {
+  local string="$1"
+  local encoded=""
+
+  for ((i = 0; i < length; i++)); do
+    local c="${string:i:1}"
+    case "$c" in
+    [a-zA-Z0-9.~_-]) encoded="$encoded$c" ;;
+    *) encoded="$encoded$(printf '%%%02X' "'$c")" ;;
+    esac
+  done
+
+  echo "$encoded"
+}
+
+query=$(rofi -dmenu -p "Google Search" -lines 0 -width 30)
+
+if [ -n "$query" ]; then
+  encoded_query=$(urlencode "$query")
+
+  xdg-open "https://www.google.com/search?q=$encoded_query" &
+
+  i3-msg "[urgent=latest] focus" >/dev/null
+fi

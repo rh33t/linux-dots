@@ -2,7 +2,11 @@
 
 # Replace with your audio source; Try :
 # pactl list sources | grep "Name: " | cut -d ":" -f2 | tr -d " "
-source="alsa_input.usb-145f_Trust_GXT_232_Microphone-00.mono-fallback"
+if [[ $(hostname) == "susanoo" ]]; then
+  source="alsa_input.usb-145f_Trust_GXT_232_Microphone-00.mono-fallback"
+else
+  source="alsa_input.pci-0000_00_1f.3.analog-stereo"
+fi
 
 # Function to toggle mute status
 toggle_mute() {
@@ -10,10 +14,10 @@ toggle_mute() {
 
   if [[ $status == "no" ]]; then
     pactl set-source-mute "$source" true
-    notify-send "  GXT Muted Successfully"
+    notify-send "  Mic muted"
   else
     pactl set-source-mute "$source" false
-    notify-send " GXT Unmuted Successfully"
+    notify-send " Mic unmuted"
   fi
 }
 

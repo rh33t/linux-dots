@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+xidlehook \
+  --detect-sleep \
+  --not-when-fullscreen \
+  --timer 600 'xset dpms force standby' '' \
+  --timer 300 'betterlockscreen -l dim' ''
