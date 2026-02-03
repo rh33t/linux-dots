@@ -1,13 +1,25 @@
 #!/usr/bin/env bash
 
-# Kill any existing Polybar instances
+# Kill existing polybar instances
 killall -q polybar
 while pgrep -u "$UID" -x polybar >/dev/null; do sleep 0.2; done
 
-# Detect active interface
-IFACE=$(ip route get 8.8.8.8 2>/dev/null | awk '{for(i=1;i<=NF;i++) if ($i == "dev") print $(i+1)}' | head -n1)
+# Get active network interface (excluding VPN interfaces)
+get_active_interface() {
+  local iface
+  iface=$(ip route get 8.8.8.8 2>/dev/null | grep -oP 'dev \K\S+')
 
-# Determine interface type: wired or wireless
+  # Skip VPN interfaces
+  if [[ "$iface" =~ ^(tun|tap|wg) ]]; then
+    iface=$(ip route show default | grep -v 'tun\|tap\|wg' | awk '{print $5}' | head -n1)
+  fi
+
+  echo "$iface"
+}
+
+IFACE=$(get_active_interface)
+
+# Determine interface type
 if [[ -d "/sys/class/net/$IFACE/wireless" ]]; then
   IFACE_TYPE="wireless"
 else
@@ -15,6 +27,4 @@ else
 fi
 
 export IFACE_TYPE
-
-# Launch Polybar
 polybar -r default &

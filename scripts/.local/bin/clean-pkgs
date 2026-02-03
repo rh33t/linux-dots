@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+echo "[*] Cleaning pacman cache (keeping one previous version)..."
+sudo pacman -Sc --noconfirm
+
+echo "[*] Searching for orphaned packages..."
+orphans=$(pacman -Qtdq || true)
+
+if [[ -n "$orphans" ]]; then
+  echo "[*] Removing orphaned packages:"
+  echo "$orphans"
+  sudo pacman -Rs --noconfirm $orphans
+else
+  echo "[*] No orphaned packages found."
+fi
+
+if command -v yay >/dev/null 2>&1; then
+  echo "[*] Cleaning yay cache..."
+  yay -Scc --noconfirm
+fi
+
+echo "[*] Cleanup finished."

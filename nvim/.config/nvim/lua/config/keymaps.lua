@@ -19,7 +19,7 @@ vim.keymap.set("n", "<C-f>", "<cmd>silent !tmux neww tmux-sessionizer<CR>")
 vim.keymap.set("n", "Q", ":q<CR>")
 
 -- make script executable
-vim.keymap.set("n", "<leader>x", "<cmd>!chmod +x %<CR>", { silent = true })
+vim.keymap.set("n", "<leader>xxx", "<cmd>!chmod +x %<CR>", { silent = true })
 
 vim.keymap.set("n", "<leader>or", function()
   vim.lsp.buf.code_action({ context = { only = { "source.organizeImports" }, diagnostics = {} }, apply = true })
@@ -33,9 +33,7 @@ vim.keymap.set("n", "<C-n>", function()
   Snacks.picker.explorer({ hidden = true, include = { ".*" } })
 end, { noremap = true, silent = true })
 
-vim.keymap.set("n", "<leader><leader>", function()
-  LazyVim.pick("find_files", { hidden = true })()
-end, { noremap = true, silent = true })
+vim.keymap.set("n", "<leader><leader>", "<cmd>Telescope find_files<CR>", { noremap = true, silent = true })
 
 -- map source action for fast triggering hihi :xD
 vim.keymap.set("n", "<A-a>", function()

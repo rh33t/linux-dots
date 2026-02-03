@@ -1,26 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <actions>
-  <action>
-    <icon>utilities-terminal</icon>
-    <name>Open Terminal Here</name>
-    <submenu></submenu>
-    <unique-id>1739533533819473-1</unique-id>
-    <command>kitty --working-directory=%f -e zsh</command>
-    <description>Open Terminal in the current working directory</description>
-    <range></range>
-    <patterns>*</patterns>
-    <startup-notify/>
-    <directories/>
-  </action>
-  <action>
-    <icon>video-x-generic</icon>
-    <name>Convert to MP4</name>
-    <submenu></submenu>
-    <unique-id>1739533533819473-2</unique-id>
-    <command>ffmpeg -i %f -c:v libx264 -c:a aac -preset slow -crf 23 "$(dirname %f)/$(basename %f | sed 's/\.[^.]*$//')_converted.mp4" &amp;&amp; notify-send "FFmpeg Conversion" "Conversion to MP4 complete for $(basename %f)!"</command>
-    <description>Convert selected file to MP4 format using ffmpeg</description>
-    <range>*</range>
-    <patterns>*.mp4;*.mkv;*.avi;*.mov;*.wmv;*.flv;*.webm</patterns>
-    <video-files/>
-  </action>
+<action>
+	<icon>utilities-terminal</icon>
+	<name>Open Terminal Here</name>
+	<submenu></submenu>
+	<unique-id>1739533533819473-1</unique-id>
+	<command>kitty --working-directory=%f -e zsh</command>
+	<description>Open Terminal in the current working directory</description>
+	<range></range>
+	<patterns>*</patterns>
+	<startup-notify/>
+	<directories/>
+</action>
+<action>
+	<icon>video-x-generic</icon>
+	<name>Convert to MP4</name>
+	<submenu></submenu>
+	<unique-id>1739533533819473-2</unique-id>
+	<command>ffmpeg -i %f -c:v libx264 -c:a aac -preset slow -crf 23 &quot;$(dirname %f)/$(basename %f | sed &apos;s/\.[^.]*$//&apos;)_converted.mp4&quot; &amp;&amp; notify-send &quot;FFmpeg Conversion&quot; &quot;Conversion to MP4 complete for $(basename %f)!&quot;</command>
+	<description>Convert selected file to MP4 format using ffmpeg</description>
+	<range>*</range>
+	<patterns>*.mp4;*.mkv;*.avi;*.mov;*.wmv;*.flv;*.webm</patterns>
+	<video-files/>
+</action>
+<action>
+	<icon>preferences-desktop-wallpaper</icon>
+	<name>Set as pywal wallpaper</name>
+	<submenu></submenu>
+	<unique-id>1739533533819473-3</unique-id>
+	<command>wal -s -i %f &amp;&amp; notify-send -u low -t 3000 -i preferences-desktop-wallpaper &quot;Wallpaper&quot; &quot;Successfully changed&quot;</command>
+	<description>Set selected image as wallpaper</description>
+	<range>*</range>
+	<patterns>*.png;*.jpg;*.jpeg;*.webp;*.bmp</patterns>
+	<image-files/>
+</action>
 </actions>

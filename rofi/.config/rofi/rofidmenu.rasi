@@ -1,7 +1,7 @@
 @import "~/.config/rofi/config.rasi"
 configuration {
-    font:                "Noto Sans Regular 13";
-    show-icons:          false;
+    font:                "Roboto 15";
+    show-icons:          true;
     icon-theme:          "Qogir";
     display-drun:        "run :)";
     drun-display-format: "{name}";

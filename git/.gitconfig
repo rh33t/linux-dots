@@ -1,12 +1,16 @@
 [core]
-	excludesFile = ~/.gitignore
-	autocrlf = input
+  excludesFile = ~/.gitignore
+  autocrlf = input
 [user]
-	name = Marc-Elvis
-	email = kraaakilo@gmail.com
+  name = Marc-Elvis
+  email = root@triplea.red
 [fetch]
-	prune = true
+  prune = true
 [init]
-	defaultBranch = master
-[http]
-	sslVerify = false
+  defaultBranch = master
+[credential "https://github.com"]
+	helper = 
+	helper = !/usr/bin/gh auth git-credential
+[credential "https://gist.github.com"]
+	helper = 
+	helper = !/usr/bin/gh auth git-credential

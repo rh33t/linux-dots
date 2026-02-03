@@ -1,0 +1,9 @@
+@import "~/.config/rofi/config.rasi"
+configuration {
+    font:            "JetBrains Mono 14";
+    show-icons:      false;
+    icon-theme:      "Qogir";
+    scroll-method:   0;
+    disable-history: false;
+    sidebar-mode:    false;
+}

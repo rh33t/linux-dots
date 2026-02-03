@@ -1,0 +1,41 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# Configuration (minutes)
+SCREEN_OFF=15
+LOCK=20
+SUSPEND=30
+
+SOCKET="${XDG_RUNTIME_DIR:-/tmp}/xidlehook.sock"
+export LOCKSCREEN="$HOME/.config/i3/scripts/lockscreen"
+
+# Enable DPMS
+xset +dpms
+
+# Laptop detection
+if ls /sys/class/power_supply/BAT* >/dev/null 2>&1; then
+  # Laptop: screen off → lock → suspend
+  xidlehook \
+    --not-when-fullscreen \
+    --socket "$SOCKET" \
+    --timer $((SCREEN_OFF * 60)) \
+    'xset dpms force off' \
+    'xset dpms force on' \
+    --timer $(((LOCK - SCREEN_OFF) * 60)) \
+    '"$LOCKSCREEN"' \
+    '' \
+    --timer $(((SUSPEND - LOCK) * 60)) \
+    'systemctl suspend' \
+    ''
+else
+  # Desktop: screen off → lock (no suspend)
+  xidlehook \
+    --not-when-fullscreen \
+    --socket "$SOCKET" \
+    --timer $((SCREEN_OFF * 60)) \
+    'xset dpms force off' \
+    'xset dpms force on' \
+    --timer $(((LOCK - SCREEN_OFF) * 60)) \
+    '"$LOCKSCREEN"' \
+    ''
+fi

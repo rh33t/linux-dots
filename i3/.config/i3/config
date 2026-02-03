@@ -1,18 +1,30 @@
-# Font for window titles.
-font pango: Roboto 11
+# i3 window manager configuration
 
-# Set the mod key to the Win key & alt key to the Alt key.
+# basic configuration
+font pango: Roboto 12
 set $mod Mod4
 set $alt Mod1
-
-# Workspace layout.
 workspace_layout default
-
-# Extra options for windows.
 new_window pixel 1
 floating_modifier $mod
 
-# Switch/iterate between workspaces.
+# variables
+set $ws1 "1"
+set $ws2 "2"
+set $ws3 "3"
+set $ws4 "4"
+set $ws5 "5"
+set $ws6 "6"
+set $ws7 "7:vm"
+set $ws8 "8"
+set $ws9 "9"
+set $ws10 "10"
+set $ws11 "11:www"
+
+set_from_resource $bg i3wm.color0 #f0f0f0
+set_from_resource $fg i3wm.color7 #f0f0f0
+
+# workspace management
 bindsym $mod+1 workspace $ws1
 bindsym $mod+2 workspace $ws2
 bindsym $mod+3 workspace $ws3
@@ -20,6 +32,7 @@ bindsym $mod+4 workspace $ws4
 bindsym $mod+5 workspace $ws5
 bindsym $mod+6 workspace $ws6
 bindsym $mod+7 workspace $ws7
+bindsym $alt+twosuperior workspace $ws7
 bindsym $mod+8 workspace $ws8
 bindsym $mod+9 workspace $ws9
 bindsym $mod+0 workspace $ws10
@@ -27,7 +40,7 @@ bindsym $alt+1 workspace $ws11
 bindsym $mod+Tab workspace next
 bindsym $mod+Shift+Tab workspace prev
 
-# Move focused container to workspace.
+# move containers to workspace
 bindsym $mod+Shift+1 move container to workspace $ws1
 bindsym $mod+Shift+2 move container to workspace $ws2
 bindsym $mod+Shift+3 move container to workspace $ws3
@@ -40,10 +53,8 @@ bindsym $mod+Shift+9 move container to workspace $ws9
 bindsym $mod+Shift+0 move container to workspace $ws10
 bindsym $mod+$alt+1 move container to workspace $ws11
 
-# Keybindings for different actions & applications.
+# window management
 bindsym $mod+q kill
-bindsym $mod+Shift+c reload
-bindsym $mod+Shift+r restart
 bindsym $mod+Left focus left
 bindsym $mod+Down focus down
 bindsym $mod+Up focus up
@@ -61,78 +72,79 @@ bindsym $mod+r layout toggle split
 bindsym $mod+Shift+space floating toggle
 bindsym $mod+a focus parent
 bindsym $mod+x [urgent=latest] focus
-bindsym $mod+Shift+n exec --no-startup-id ~/.config/i3/scripts/empty_workspace
-bindsym $mod+XF86AudioRaiseVolume exec --no-startup-id amixer -D pulse sset Master 1%+ && pkill -RTMIN+1 i3blocks
-bindsym $mod+XF86AudioLowerVolume exec --no-startup-id amixer -D pulse sset Master 1%- && pkill -RTMIN+1 i3blocks
-bindsym $mod+XF86MonBrightnessDown exec --no-startup-id ~/.config/i3/scripts/brightness down
-bindsym $mod+XF86MonBrightnessUp exec --no-startup-id ~/.config/i3/scripts/brightness up
 
-bindsym $mod+semicolon exec --no-startup-id smile
-bindsym $mod+v exec --no-startup-id copyq show
-bindsym $mod+d exec --no-startup-id dmenu_run
-bindsym $mod+Return exec --no-startup-id kitty zsh -c "tmux attach || tmux new -s 'daily'"
+# i3 control
+bindsym $mod+Shift+percent reload
+bindsym $mod+Shift+r restart
+
+# applications
+bindsym $mod+Return exec --no-startup-id kitty zsh -c "tmux new -A -s daily"
+bindsym $mod+Shift+Return exec --no-startup-id ghostty -e tmux new-session -A -s daily
 bindsym $mod+t exec --no-startup-id kitty --working-directory=~ -e zsh
-bindsym $mod+Shift+Return exec --no-startup-id ghostty
 bindsym $mod+e exec --no-startup-id /usr/bin/thunar
 bindsym $mod+w exec --no-startup-id /usr/bin/brave
+bindsym $mod+v exec --no-startup-id copyq show
+bindsym $mod+d exec --no-startup-id dmenu_run -fn "JetBrainsMono NF:size=15" -p "search app ➜ " -nb "#282a36" -nf "#c3c3c0" -sb "#282a36" -sf "#50fa7b"
+bindsym $mod+space exec --no-startup-id "rofi -show drun -config ~/.config/rofi/rofidmenu.rasi"
+bindsym $alt+space exec --no-startup-id "rofi -show window -config ~/.config/rofi/rofidmenu.rasi"
+bindsym $mod+semicolon exec --no-startup-id rofimoji --selector rofi --selector-args "-theme ~/.config/rofi/emoji.rasi" --action type copy
+bindsym $mod+Shift+c exec --no-startup-id xcolor -s clipboard && notify-send 'Color Picked!'
+
+# screenshots and tools
 bindsym $mod+F10 exec --no-startup-id flameshot gui
 bindsym $mod+Shift+s exec --no-startup-id flameshot gui -c
 bindsym $mod+Shift+o exec --no-startup-id obsidian
 bindsym $mod+Shift+b exec --no-startup-id polybar-msg cmd toggle
 bindsym $mod+F12 exec --no-startup-id ~/.local/bin/audio_manager toggle
+
+# system controls
 bindsym $mod+l exec --no-startup-id exec betterlockscreen -l dim
 bindsym $mod+Shift+e exec --no-startup-id ~/.config/i3/scripts/powermenu
-bindsym $mod+Shift+p exec --no-startup-id ~/.config/i3/scripts/power-profiles
-bindsym $mod+space exec --no-startup-id "rofi -show drun -config ~/.config/rofi/rofidmenu.rasi"
-bindsym $alt+space exec --no-startup-id "rofi -show window -config ~/.config/rofi/rofidmenu.rasi"
+bindsym $mod+Shift+n exec --no-startup-id ~/.config/i3/scripts/empty_workspace
+# quickly remount all fstab entries
+bindsym $mod+Shift+d exec --no-startup-id sudo mount -a && notify-send 'Disk mount reloaded !'
 
+# media keys
 bindsym XF86AudioMicMute exec amixer sset Capture toggle
-bindsym XF86AudioPlay exec --no-startup-id playerctl play
-bindsym XF86AudioPause exec --no-startup-id playerctl pause
+bindsym XF86AudioPlay exec --no-startup-id playerctl play-pause
 bindsym XF86AudioNext exec --no-startup-id playerctl next
 bindsym XF86AudioPrev exec --no-startup-id playerctl previous
 bindsym XF86AudioMute exec --no-startup-id ~/.config/i3/scripts/volume mute
 bindsym XF86AudioRaiseVolume exec --no-startup-id ~/.config/i3/scripts/volume up
 bindsym XF86AudioLowerVolume exec --no-startup-id ~/.config/i3/scripts/volume down
+bindsym $mod+XF86AudioRaiseVolume exec --no-startup-id amixer -D pulse sset Master 1%+ && pkill -RTMIN+1 i3blocks
+bindsym $mod+XF86AudioLowerVolume exec --no-startup-id amixer -D pulse sset Master 1%- && pkill -RTMIN+1 i3blocks
 
-# Resize mode Configuration
+# brightness controls
+bindsym XF86MonBrightnessDown exec --no-startup-id ~/.config/i3/scripts/brightness down
+bindsym XF86MonBrightnessUp exec --no-startup-id ~/.config/i3/scripts/brightness up
+
+# resize controls
 bindsym $mod+Ctrl+Right resize shrink width 1 px or 1 ppt
 bindsym $mod+Ctrl+Up resize grow height 1 px or 1 ppt
 bindsym $mod+Ctrl+Down resize shrink height 1 px or 1 ppt
 bindsym $mod+Ctrl+Left resize grow width 1 px or 1 ppt
 
+# modes
 bindsym $mod+o mode "utilities"
 mode "utilities" {
-    bindsym f exec --no-startup-id wal -s -i ~/Pictures/wallpapers/favourites
-    bindsym a exec --no-startup-id wal -s -i ~/Pictures/wallpapers/anime-girls/
-    bindsym Escape mode "default"
-    bindsym Return mode "default"
+  bindsym f exec --no-startup-id wal -s -i ~/Pictures/wallpapers/favourites
+  bindsym c exec --no-startup-id mate-calculator
+  bindsym Escape mode "default"
+  bindsym Return mode "default"
 }
 
 bindsym $alt+r mode "resize"
 mode "resize" {
-    bindsym Left resize shrink width 10 px or 10 ppt
-    bindsym Down resize grow height 10 px or 10 ppt
-    bindsym Up resize shrink height 10 px or 10 ppt
-    bindsym Right resize grow width 10 px or 10 ppt
-    bindsym Return mode "default"
-    bindsym Escape mode "default"
+  bindsym Left resize shrink width 10 px or 10 ppt
+  bindsym Down resize grow height 10 px or 10 ppt
+  bindsym Up resize shrink height 10 px or 10 ppt
+  bindsym Right resize grow width 10 px or 10 ppt
+  bindsym Return mode "default"
+  bindsym Escape mode "default"
 }
 
-# Workspace behavior configuration.
-set $ws1 "1"
-set $ws2 "2"
-set $ws3 "3"
-set $ws4 "4"
-set $ws5 "5"
-set $ws6 "6"
-set $ws7 "7:vm"
-set $ws8 "8"
-set $ws9 "9"
-set $ws10 "10"
-set $ws11 "11:1337"
-
-# Assign workspaces to outputs.
+# workspace assignments
 workspace $ws1 output HDMI-0
 workspace $ws2 output HDMI-0
 workspace $ws3 output DP-0
@@ -144,32 +156,29 @@ workspace $ws8 output DP-0
 workspace $ws10 output HDMI-0
 workspace $ws11 output HDMI-0
 
-# Assign applications to workspaces.
-assign [class="kitty"] $ws1
+# application workspace assignments
+assign [class=(?i)kitty|ghostty] $ws1
 assign [class="Code"] $ws2
 assign [class=jetbrains-(?i)] $ws2
 assign [class="Thunar"] $ws2
-assign [class="(?i)chrome"] $ws11
 assign [class="TelegramDesktop"] $ws4
 assign [class="Slack"] $ws4
-assign [class="thunderbird"] $ws4
+assign [class="(?i)thunderbird"] $ws4
 assign [class="discord"] $ws4
 assign [class="Signal"] $ws4
-assign [class="Notion"] $ws5
 assign [class="obsidian"] $ws5
 assign [class="Spotify"] $ws6
 assign [class="Rhythmbox"] $ws6
-assign [class="Netflix"] $ws6
 assign [class="vlc"] $ws6
 assign [class="mpv"] $ws6
-assign [class=(?i)VirtualBox] $ws7
+assign [class=(?i)VirtualBox|vmware] $ws7
 assign [class="obs"] $ws8
 assign [class="draw.io"] $ws10
-assign [class="PacketTracer"] $ws10
 assign [class="(?i)brave" instance="brave-browser"] $ws3
 assign [class="Brave-browser" instance="crx_hnpfjngllnobngcgfapefoaidbinmjnm"] $ws4
+assign [class="Brave-browser" instance="crx_ilmgmogedobmcfegdjcibiiaodmdenpf"] $ws10
 
-# Automatic set focus on new windows and applications when they are opened on a workspace that is not currently focused.
+# auto focus rules
 for_window [class=kitty] focus
 for_window [class=(?i)brave] focus
 for_window [class=(?i)VirtualBox] focus
@@ -179,29 +188,30 @@ for_window [class=TelegramDesktop] focus
 for_window [class=vlc] focus
 for_window [class="VirtualBox Machine"] focus
 
-# Start applications on i3 startup or reload.
+# startup applications (always)
 exec_always --no-startup-id autotiling
 exec_always --no-startup-id "~/.config/i3/scripts/start-polybar"
-exec_always --no-startup-id "killall copyq; copyq --start-server"
-exec_always --no-startup-id sleep 1 && wal -s -i ~/Pictures/wallpapers/favourites/Luffy_from_One_Piece_5160x2160.jpeg
+exec_always --no-startup-id sleep 1 && wal -s -i ~/Pictures/wallpapers/favourites/wallpaper-0004.jpg
 # exec_always --no-startup-id sleep 2 && $HOME/.local/bin/check-updates
 exec_always --no-startup-id sleep 8 && picom --config ~/.config/picom/picom.conf
 
-# Start applications on i3 startup.
-exec --no-startup-id ~/.config/i3/scripts/autolock
+# startup applications (once)
 exec --no-startup-id dex --autostart --environment i3
 exec --no-startup-id /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
 exec --no-startup-id /usr/bin/gnome-keyring-daemon --start --components=pkcs11,secrets,ssh
 exec --no-startup-id ~/.config/i3/scripts/monitors
 exec --no-startup-id /usr/bin/dunst --config ~/.config/dunst/dunstrc
 exec --no-startup-id sleep 5 && /usr/bin/brave
-exec --no-startup-id xmodmap ~/.Xmodmap
-# make messages apps in tabbed layout
+exec --no-startup-id copyq --start-server
 exec --no-startup-id i3-msg "workspace 4; layout tabbed"
 
-# Windows Rules
-for_window [class=".*"] move position center, border pixel 1
-for_window [class="kitty"] border pixel 0
+# screen lock and idle management
+exec --no-startup-id ~/.config/i3/scripts/idle-manager
+
+# window rules
+for_window [floating] move position center
+for_window [class=".*"] border pixel 1
+for_window [class="kitty|wezterm|ghostty"] border pixel 0
 for_window [title="^Welcome to.*"] floating enable, move position center
 for_window [class="Yad" instance="yad"] floating enable, move position center
 for_window [class="Galculator" instance="galculator"] floating enable
@@ -210,14 +220,12 @@ for_window [class="copyq" instance="copyq"] floating enable, resize set 800 600,
 for_window [class="Anydesk"] floating enable, move position center
 for_window [class="Gnome-disks"] floating enable, resize set 800 600, move position center
 for_window [class="Nwg-look"] floating enable, resize set 800 600, move position center
-for_window [title="Notion - Command Search"] floating enable, resize set 800 600, move position center
-for_window [class="smile"] floating enable, resize set 400 500, move position center
 for_window [class="Gnome-screenshot"] floating enable, resize set 800 600, move position center
+for_window [class="Gpick"] floating enable, resize set 800 600, move position center
 for_window [class="Xsane" instance="xsane"] floating enable, move position center
 for_window [class="pavucontrol"] floating enable, move position center
 for_window [class="qt5ct" instance="qt5ct"] floating enable, move position center
 for_window [class="qt6ct" instance="qt6ct"] floating enable, move position center
-for_window [class="Pamac-manager"] floating enable, move position center
 for_window [class="Nm-connection-editor"] floating enable, resize set 800 600, move position center
 for_window [class="Arandr"] floating enable, resize set 800 600, move position center
 for_window [class="flameshot"] floating enable, resize set 800 600, move position center
@@ -237,20 +245,25 @@ for_window [window_type="dialog"] floating enable, move position center
 for_window [window_type="menu"] floating enable, move position center
 for_window [class="Kvantum Manager"] floating enable,resize set 800 600, move position center
 for_window [class="Brave-browser" instance="crx_hnpfjngllnobngcgfapefoaidbinmjnm"] floating disable
+for_window [class="Brave-browser" instance="crx_ilmgmogedobmcfegdjcibiiaodmdenpf"] floating disable
 for_window [workspace="4"] layout tabbed
+for_window [class="Emulator"] border pixel 0
+for_window [class="Emulator"] floating enable
 
-set_from_resource $bg i3wm.color0 #f0f0f0
-set_from_resource $fg i3wm.color7 #f0f0f0
+# theme and appearance
+# client.focused          $fg     $bg     $fg     $fg     $fg
+# client.focused_inactive $bg     $bg     $fg     $bg     $bg
+# client.unfocused        $bg     $bg     $fg     $bg     $bg
+# client.urgent           $bg     $bg     $fg     $bg     $bg
+# client.placeholder      $bg     $bg     $fg     $bg     $bg
+# client.background       $bg
 
-# Class                 border  backgr. text indicator child_border
-client.focused          $fg     $bg     $fg     $fg     $fg
-client.focused_inactive $bg     $bg     $fg     $bg     $bg
-client.unfocused        $bg     $bg     $fg     $bg     $bg
-client.urgent           $bg     $bg     $fg     $bg     $bg
-client.placeholder      $bg     $bg     $fg     $bg     $bg
-client.background       $bg
+# bar {
+#   output HDMI-0
+#   status_command i3status
+# }
 
-# Windows gaps
+# gaps configuration
 gaps inner 0
 gaps outer 0
 smart_gaps on

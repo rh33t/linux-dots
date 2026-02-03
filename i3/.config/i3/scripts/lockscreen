@@ -1,0 +1,11 @@
+#!/bin/bash
+
+# pause all MPRIS players
+if command -v playerctl >/dev/null 2>&1; then
+  for player in $(playerctl -l 2>/dev/null); do
+    playerctl -p "$player" pause
+  done
+fi
+
+# lock the screen with betterlockscreen
+betterlockscreen -l dimblur

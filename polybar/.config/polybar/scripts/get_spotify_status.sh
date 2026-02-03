@@ -39,11 +39,13 @@ else
     echo "Quiet"
   elif [ "$STATUS" = "Paused" ]; then
     update_hooks "$PARENT_BAR_PID" 2
-    playerctl --player=$PLAYER metadata --format "$FORMAT"
+    OUTPUT=$(playerctl --player=$PLAYER metadata --format "$FORMAT")
+    echo "$OUTPUT"
   elif [ "$STATUS" = "No player is running" ]; then
     echo "Quiet"
   else
     update_hooks "$PARENT_BAR_PID" 1
-    playerctl --player=$PLAYER metadata --format "$FORMAT"
+    OUTPUT=$(playerctl --player=$PLAYER metadata --format "$FORMAT")
+    echo $OUTPUT
   fi
 fi

@@ -1,51 +1,28 @@
 #!/bin/bash
 
-# Configuration
+SOUND_LOW="/usr/share/sounds/freedesktop/stereo/message-new-instant.oga"
 SOUND_NORMAL="/usr/share/sounds/freedesktop/stereo/message.oga"
 SOUND_CRITICAL="/usr/share/sounds/freedesktop/stereo/dialog-warning.oga"
 
-# Get the urgency level from dunst
-# Dunst passes the urgency level as the first argument
-URGENCY="$1"
-
-# Check if pactl exists (for volume control)
-PACTL_EXISTS=$(command -v pactl)
-
-# Function to play sound
 play_sound() {
-  local sound_file="$1"
-
-  # Check if the sound file exists
-  if [ ! -f "$sound_file" ]; then
-    echo "Sound file not found: $sound_file" >&2
-    return 1
-  fi
-
-  # If we have pactl, ensure the volume is reasonable
-  if [ -n "$PACTL_EXISTS" ]; then
-    # Get current volume
-    current_volume=$(pactl get-sink-volume @DEFAULT_SINK@ | grep -Po '[0-9]{1,3}%' | head -1 | sed 's/%//')
-
-    # If volume is too high, temporarily lower it for the notification
-    if [ "$current_volume" -gt 70 ]; then
-      pactl set-sink-volume @DEFAULT_SINK@ 70%
-      paplay "$sound_file"
-      pactl set-sink-volume @DEFAULT_SINK@ ${current_volume}%
-    else
-      paplay "$sound_file"
-    fi
-  else
-    # Fallback to just playing the sound
-    paplay "$sound_file"
-  fi
+  [ -f "$1" ] && paplay "$1" 2>/dev/null
 }
 
-# Play different sounds based on urgency
+# dunst passes: appname summary body icon urgency
+URGENCY="${@: -1}"
+
+if [ "$1" == "VolumeControl" ]; then
+  exit 0
+fi
+
 case "$URGENCY" in
-"CRITICAL")
+CRITICAL)
   play_sound "$SOUND_CRITICAL"
   ;;
-"NORMAL" | "LOW" | *)
+LOW)
+  play_sound "$SOUND_LOW"
+  ;;
+*)
   play_sound "$SOUND_NORMAL"
   ;;
 esac

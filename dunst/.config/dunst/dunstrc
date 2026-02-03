@@ -23,18 +23,17 @@ separator_color = frame
 separator_height = 2
 padding = 12
 horizontal_padding = 12
-text_icon_padding = 8
+text_icon_padding = 10
 
 # Icons
 enable_recursive_icon_lookup = true
-icon_theme = "Arc"
+icon_theme = "Tela-blue-dark"
 icon_position = left
 min_icon_size = 32
-max_icon_size = 64
-icon_path = /usr/share/icons/Arc/status/32/:/usr/share/icons/Arc/devices/32/:/usr/share/icons/Arc/apps/32/
+max_icon_size = 40
 
 # Text
-font = "Roboto 13"
+font = "Roboto 14"
 line_height = 4
 markup = full
 format = "<b>%s</b>\n%b"
@@ -58,12 +57,10 @@ history_length = 20
 dmenu = /usr/bin/dmenu -p dunst:
 browser = /usr/bin/firefox -new-tab
 always_run_script = true
+script = /home/triplea/.config/dunst/play_sound
 mouse_left_click = close_current
 mouse_middle_click = do_action, close_current
 mouse_right_click = close_all
-
-[experimental]
-per_monitor_dpi = false
 
 [urgency_low]
 background = "#2c2c2c"

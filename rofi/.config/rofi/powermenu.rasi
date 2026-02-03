@@ -20,7 +20,7 @@ window {
     padding:          0px 10px;
     transparency:     "real";
     width:            170px;
-    location:         south;
+    location:         east;
     /*y-offset:       18;*/
     /*x-offset:       850;*/
 }
