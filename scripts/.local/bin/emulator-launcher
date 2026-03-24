@@ -1,0 +1,47 @@
+#!/usr/bin/env bash
+
+ANDROID_SDK="${ANDROID_SDK_ROOT:-$HOME/sdks/Android/Sdk/}"
+EMULATOR_BIN="$ANDROID_SDK/emulator/emulator"
+ADB_BIN="$ANDROID_SDK/platform-tools/adb"
+ROFI_CONFIG="$HOME/.config/rofi/rofidmenu.rasi"
+
+die() {
+  notify-send -u critical "Emulator Picker" "$*" 2>/dev/null
+  echo "ERROR: $*" >&2
+  exit 1
+}
+
+kill_all() {
+  for device in $("$ADB_BIN" devices | grep emulator | awk '{print $1}'); do
+    "$ADB_BIN" -s "$device" emu kill 2>/dev/null
+  done
+  "$ADB_BIN" kill-server 2>/dev/null
+  pkill -f "qemu-system" 2>/dev/null
+  pkill -f "emulator" 2>/dev/null
+  pkill -f "emulator64" 2>/dev/null
+  pkill -f "adb" 2>/dev/null
+  notify-send "Emulator Picker" "All emulator instances killed." 2>/dev/null
+}
+
+[[ -x "$EMULATOR_BIN" ]] || die "Emulator not found at: $EMULATOR_BIN"
+command -v rofi &>/dev/null || die "rofi not found."
+
+ITEMS=()
+while IFS= read -r avd; do
+  ITEMS+=("$avd")
+done < <("$EMULATOR_BIN" -list-avds 2>/dev/null)
+
+[[ ${#ITEMS[@]} -eq 0 ]] && die "No AVDs found."
+
+ITEMS+=("Kill all emulator instances")
+
+CHOICE=$(printf '%s\n' "${ITEMS[@]}" | rofi -dmenu -i -p "AVD Launcher" -theme "$ROFI_CONFIG" -no-custom)
+[[ -z "$CHOICE" ]] && exit 0
+
+if [[ "$CHOICE" == "Kill all emulator instances" ]]; then
+  kill_all
+else
+  notify-send "Emulator Picker" "Launching: $CHOICE" 2>/dev/null
+  nohup "$EMULATOR_BIN" -avd "$CHOICE" -no-snapshot-load &>/tmp/avd-"$CHOICE".log &
+  disown
+fi

@@ -13,7 +13,7 @@ set $ws1 "1"
 set $ws2 "2"
 set $ws3 "3"
 set $ws4 "4"
-set $ws5 "5"
+set $ws5 "5:notes"
 set $ws6 "6"
 set $ws7 "7:vm"
 set $ws8 "8"
@@ -95,12 +95,13 @@ bindsym $mod+F10 exec --no-startup-id flameshot gui
 bindsym $mod+Shift+s exec --no-startup-id flameshot gui -c
 bindsym $mod+Shift+o exec --no-startup-id obsidian
 bindsym $mod+Shift+b exec --no-startup-id polybar-msg cmd toggle
-bindsym $mod+F12 exec --no-startup-id ~/.local/bin/audio_manager toggle
+bindsym $mod+Shift+a exec --no-startup-id ~/.local/bin/emulator-launcher
+bindsym $mod+F12 exec --no-startup-id ~/.local/bin/audio-manager toggle
 
 # system controls
-bindsym $mod+l exec --no-startup-id exec betterlockscreen -l dim
+bindsym $mod+l exec --no-startup-id ~/.config/i3/scripts/lockscreen
 bindsym $mod+Shift+e exec --no-startup-id ~/.config/i3/scripts/powermenu
-bindsym $mod+Shift+n exec --no-startup-id ~/.config/i3/scripts/empty_workspace
+bindsym $mod+Shift+n exec --no-startup-id ~/.config/i3/scripts/empty-workspace
 # quickly remount all fstab entries
 bindsym $mod+Shift+d exec --no-startup-id sudo mount -a && notify-send 'Disk mount reloaded !'
 
@@ -160,7 +161,6 @@ workspace $ws11 output HDMI-0
 assign [class=(?i)kitty|ghostty] $ws1
 assign [class="Code"] $ws2
 assign [class=jetbrains-(?i)] $ws2
-assign [class="Thunar"] $ws2
 assign [class="TelegramDesktop"] $ws4
 assign [class="Slack"] $ws4
 assign [class="(?i)thunderbird"] $ws4
@@ -177,6 +177,7 @@ assign [class="draw.io"] $ws10
 assign [class="(?i)brave" instance="brave-browser"] $ws3
 assign [class="Brave-browser" instance="crx_hnpfjngllnobngcgfapefoaidbinmjnm"] $ws4
 assign [class="Brave-browser" instance="crx_ilmgmogedobmcfegdjcibiiaodmdenpf"] $ws10
+assign [class="Brave-browser" instance="crx_dnfpoenibinnbbckgbhendmlljoobcfg"] $ws10
 
 # auto focus rules
 for_window [class=kitty] focus
@@ -191,7 +192,7 @@ for_window [class="VirtualBox Machine"] focus
 # startup applications (always)
 exec_always --no-startup-id autotiling
 exec_always --no-startup-id "~/.config/i3/scripts/start-polybar"
-exec_always --no-startup-id sleep 1 && wal -s -i ~/Pictures/wallpapers/favourites/wallpaper-0004.jpg
+exec_always --no-startup-id sleep 1 && wal -s -i ~/Pictures/wallpapers/favourites/sung-jinwoo-7680x4320-21872.jpg
 # exec_always --no-startup-id sleep 2 && $HOME/.local/bin/check-updates
 exec_always --no-startup-id sleep 8 && picom --config ~/.config/picom/picom.conf
 
@@ -244,8 +245,10 @@ for_window [window_role="webconsole"] floating enable, move position center
 for_window [window_type="dialog"] floating enable, move position center
 for_window [window_type="menu"] floating enable, move position center
 for_window [class="Kvantum Manager"] floating enable,resize set 800 600, move position center
+for_window [class="org.gnome.clocks"] floating enable,resize set 500 500, move position center
 for_window [class="Brave-browser" instance="crx_hnpfjngllnobngcgfapefoaidbinmjnm"] floating disable
 for_window [class="Brave-browser" instance="crx_ilmgmogedobmcfegdjcibiiaodmdenpf"] floating disable
+for_window [class="Brave-browser" instance="crx_dnfpoenibinnbbckgbhendmlljoobcfg"] floating disable
 for_window [workspace="4"] layout tabbed
 for_window [class="Emulator"] border pixel 0
 for_window [class="Emulator"] floating enable

@@ -14,7 +14,7 @@ truncate_text() {
 if command -v zscroll >/dev/null 2>&1; then
   # zscroll exists, run it
   zscroll -l 20 \
-    --delay 0.1 \
+    --delay 1 \
     --scroll-padding "  " \
     --match-command "$status_script --status" \
     --match-text "Playing" "--scroll 1" \

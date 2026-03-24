@@ -28,13 +28,6 @@ function get_volume_icon {
   fi
 }
 
-# Displays a volume notification using dunstify
-function show_volume_notif {
-  volume=$(get_mute)
-  get_volume_icon
-  dunstify -a "VolumeControl" -i audio-volume-muted-blocking -t 1000 -r 1000 -u normal "$volume_icon  $volume%" -h int:value:$volume -h string:hlcolor:$bar_color
-}
-
 # Main function - Takes user input, "up", "down", or "mute", and performs the corresponding action
 case $1 in
 up)
@@ -46,16 +39,13 @@ up)
   else
     pactl set-sink-volume @DEFAULT_SINK@ +$volume_step%
   fi
-  show_volume_notif
   ;;
 
 down)
   pactl set-sink-volume @DEFAULT_SINK@ -$volume_step%
-  show_volume_notif
   ;;
 
 mute)
   pactl set-sink-mute @DEFAULT_SINK@ toggle
-  show_volume_notif
   ;;
 esac

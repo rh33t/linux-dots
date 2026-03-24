@@ -31,9 +31,8 @@ fi
 # Fuzzy search history
 source <(fzf --zsh)
 HISTFILE=~/.zsh_history
-HISTSIZE=10000
-SAVEHIST=10000
-setopt appendhistory
+HISTSIZE=100000
+SAVEHIST=100000
 
 # Zoxide
 eval "$(zoxide init zsh)"
@@ -48,9 +47,7 @@ z() {
   }
 
 # tools configuration
-if [ -f ~/.tools.zsh ]; then
-  source ~/.tools.zsh
-fi
+[[ ! -f ~/.tools.zsh ]] || source ~/.tools.zsh
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh

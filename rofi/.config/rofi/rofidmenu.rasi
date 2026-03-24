@@ -3,7 +3,8 @@ configuration {
     font:                "Roboto 15";
     show-icons:          true;
     icon-theme:          "Qogir";
-    display-drun:        "run :)";
+    display-drun:        "run ";
+    display-window:        "windows ";
     drun-display-format: "{name}";
     scroll-method:       0;
     disable-history:     false;

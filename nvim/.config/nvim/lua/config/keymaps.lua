@@ -33,7 +33,11 @@ vim.keymap.set("n", "<C-n>", function()
   Snacks.picker.explorer({ hidden = true, include = { ".*" } })
 end, { noremap = true, silent = true })
 
-vim.keymap.set("n", "<leader><leader>", "<cmd>Telescope find_files<CR>", { noremap = true, silent = true })
+vim.keymap.set("n", "<leader><leader>", function()
+  Snacks.picker.files({
+    hidden = true,
+  })
+end, { noremap = true, silent = true })
 
 -- map source action for fast triggering hihi :xD
 vim.keymap.set("n", "<A-a>", function()
