@@ -6,8 +6,7 @@ adg() {
 }
 
 local() {
-  sudo bash -c 'echo "search lan" > /etc/resolv.conf'
-  sudo bash -c 'echo "nameserver 192.168.1.100" >> /etc/resolv.conf'
+  sudo systemctl restart NetworkManager
 }
 
 if [ "$1" == "adg" ]; then

@@ -1,6 +1,6 @@
-# Dotfiles
+# .dotfiles
 
-this repository contains my personal configuration files (dotfiles) for various applications and tools on my arch linux setup
+This repository contains my personal configuration files (dotfiles) for various applications and tools on my arch linux setup.
 
 ## Screenshot
-![Desktop Overview](misc/shot.png)
+![Desktop Overview](shot.png)
