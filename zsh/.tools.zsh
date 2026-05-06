@@ -28,7 +28,7 @@ export PYENV_ROOT="$HOME/.pyenv"
 eval "$(pyenv init - zsh)"
 
 # Vagrant
-export VAGRANT_HOME="$HOME/data/vagrant"
+export VAGRANT_HOME="/vms/vagrant"
 fpath=(/opt/vagrant/embedded/gems/gems/vagrant-2.4.9/contrib/zsh $fpath)
 compinit
 
@@ -40,3 +40,6 @@ export CHROME_EXECUTABLE=/usr/bin/google-chrome-stable
 
 # helm completion
 # alias soh='source <(helm completion zsh)'
+
+# Android SDK build-tools (latest version)
+export PATH="$PATH:$HOME/sdks/Android/Sdk/build-tools/37.0.0"

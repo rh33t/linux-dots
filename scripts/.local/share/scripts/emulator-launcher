@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-ANDROID_SDK="${ANDROID_SDK_ROOT:-$HOME/sdks/Android/Sdk/}"
+ANDROID_SDK="${ANDROID_SDK_ROOT:-$HOME/sdks/Android/Sdk}"
 EMULATOR_BIN="$ANDROID_SDK/emulator/emulator"
 ADB_BIN="$ANDROID_SDK/platform-tools/adb"
 ROFI_CONFIG="$HOME/.config/rofi/rofidmenu.rasi"

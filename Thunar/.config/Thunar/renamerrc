@@ -10,7 +10,7 @@ Regexp=FALSE
 
 [ThunarSbrNumberRenamer]
 TextMode=THUNAR_SBR_TEXT_MODE_TN
-Text=redline-
-Mode=THUNAR_SBR_NUMBER_MODE_000100020003
+Text=edit_
+Mode=THUNAR_SBR_NUMBER_MODE_123
 Start=0
 

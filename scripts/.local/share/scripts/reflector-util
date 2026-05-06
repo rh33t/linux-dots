@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+sudo reflector \
+  --country France,Germany,Netherlands \
+  --age 12 \
+  --latest 20 \
+  --protocol https \
+  --sort rate \
+  --fastest 5 \
+  --save /etc/pacman.d/mirrorlist

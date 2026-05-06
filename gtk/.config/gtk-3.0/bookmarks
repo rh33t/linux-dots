@@ -1,7 +1,7 @@
-file:///home/triplea/data
-file:///home/triplea/labs
-file:///mnt/proxmox proxmox
+file:///mnt/proxmox/share-1
 file:///mnt/backups
+file:///home/triplea/labs
+file:///vms
 file:///home/triplea/Downloads
 file:///home/triplea/Documents
 file:///home/triplea/Music

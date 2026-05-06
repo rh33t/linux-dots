@@ -27,7 +27,7 @@ check_status() {
   if [[ $status == "no" ]]; then
     echo "%{F#00FF00}%{F-}" # Green color for unmuted
   else
-    echo "%{F#FF0000}%{F-}" # Red color for muted
+    echo "%{F#FF0000} %{F-}" # Red color for muted
   fi
 }
 

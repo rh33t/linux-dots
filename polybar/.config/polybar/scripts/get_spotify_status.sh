@@ -25,6 +25,7 @@ update_hooks() {
 
 PLAYERCTL_STATUS=$(playerctl --player=$PLAYER status 2>/dev/null)
 EXIT_CODE=$?
+QUIET_MESSAGE=""
 
 if [ $EXIT_CODE -eq 0 ]; then
   STATUS=$PLAYERCTL_STATUS
@@ -36,13 +37,13 @@ if [ "$1" == "--status" ]; then
   echo "$STATUS"
 else
   if [ "$STATUS" = "Stopped" ]; then
-    echo "Quiet"
+    echo $QUIET_MESSAGE
   elif [ "$STATUS" = "Paused" ]; then
     update_hooks "$PARENT_BAR_PID" 2
     OUTPUT=$(playerctl --player=$PLAYER metadata --format "$FORMAT")
     echo "$OUTPUT"
   elif [ "$STATUS" = "No player is running" ]; then
-    echo "Quiet"
+    echo $QUIET_MESSAGE
   else
     update_hooks "$PARENT_BAR_PID" 1
     OUTPUT=$(playerctl --player=$PLAYER metadata --format "$FORMAT")

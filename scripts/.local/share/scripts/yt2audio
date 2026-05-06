@@ -1,0 +1,76 @@
+#!/usr/bin/env bash
+
+set -uo pipefail
+
+if [[ $# -lt 1 ]]; then
+  echo "usage: $0 <urls_file> [base_name]" >&2
+  echo "       base_name defaults to YYYY-MM-DD-music" >&2
+  exit 1
+fi
+
+urls_file="$1"
+base="${2:-$(date +%F)-music}"
+audio_dir="$base"
+output="${base}.mp3"
+
+if [[ ! -f "$urls_file" ]]; then
+  echo "error: file not found: $urls_file" >&2
+  exit 1
+fi
+
+for cmd in yt-dlp ffmpeg; do
+  if ! command -v "$cmd" >/dev/null 2>&1; then
+    echo "error: $cmd not found in PATH" >&2
+    exit 1
+  fi
+done
+
+mkdir -p "$audio_dir"
+tmpdir=$(mktemp -d)
+trap 'rm -rf "$tmpdir"' EXIT
+
+echo "[*] downloading audio tracks to $audio_dir"
+
+# -i: ignore errors and continue with next url
+# --no-warnings: less noise
+# || true: don't kill the script even if some downloads fail
+yt-dlp \
+  -i \
+  -x --audio-format mp3 --audio-quality 0 \
+  -o "$audio_dir/%(autonumber)03d-%(title)s.%(ext)s" \
+  --batch-file "$urls_file" || true
+
+echo "[*] building concat list"
+
+list_file="$tmpdir/list.txt"
+shopt -s nullglob
+mp3_files=("$audio_dir"/*.mp3)
+shopt -u nullglob
+
+if [[ ${#mp3_files[@]} -eq 0 ]]; then
+  echo "error: no audio files downloaded" >&2
+  exit 1
+fi
+
+echo "[*] ${#mp3_files[@]} file(s) downloaded successfully"
+
+for f in "${mp3_files[@]}"; do
+  # ffmpeg concat resolves paths relative to the list file's dir, so use absolute
+  abs=$(readlink -f "$f")
+  escaped=${abs//\'/\'\\\'\'}
+  echo "file '$escaped'" >>"$list_file"
+done
+
+echo "[*] merging into $output"
+
+ffmpeg -hide_banner -loglevel error -y \
+  -f concat -safe 0 -i "$list_file" \
+  -c:a libmp3lame -b:a 192k \
+  "$output"
+
+if [[ $? -eq 0 ]]; then
+  echo "[+] done: $output"
+else
+  echo "[!] ffmpeg merge failed" >&2
+  exit 1
+fi

@@ -1,0 +1,20 @@
+#!/bin/bash
+
+CHAT_ID="1551732857"
+MESSAGE="${*:-No message provided}"
+TIMESTAMP=$(date '+%Y-%m-%d %H:%M:%S')
+
+FORMATTED_MESSAGE="[notify] $(hostname) | $USER | $TIMESTAMP
+$MESSAGE"
+
+if [[ -z "$TELEGRAM_BOT" ]]; then
+    echo "Error: TELEGRAM_BOT not set" >&2
+else
+    curl -s -X POST "https://api.telegram.org/bot$TELEGRAM_BOT/sendMessage" \
+        -d "chat_id=$CHAT_ID" \
+        -d "text=$FORMATTED_MESSAGE" \
+        -d "parse_mode=HTML" > /dev/null
+fi
+
+ICON=$(find /usr/share/icons -type f \( -name "*notification*.svg" -o -name "*notification*.png" \) -print -quit 2>/dev/null)
+notify-send ${ICON:+--icon="$ICON"} "notify" "$MESSAGE"

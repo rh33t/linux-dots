@@ -6,9 +6,9 @@ local config = wezterm.config_builder()
 local triplea = require("lua/triplea")
 config.colors = triplea.triplea.colors()
 config.window_frame = triplea.triplea.window_frame()
-config.font = wezterm.font_with_fallback({ "Agave Nerd Font" })
-config.font_size = 16.0
-config.line_height = 1.2
+config.font = wezterm.font_with_fallback({ "JetBrainsMono NF" })
+config.font_size = 18.0
+-- config.line_height = 1.2
 config.warn_about_missing_glyphs = false
 
 -- window settings
