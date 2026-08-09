@@ -1,9 +1,9 @@
-file:///mnt/proxmox/share-1
-file:///mnt/backups
-file:///home/triplea/labs
+file:///home/lv/labs
+file:///home/lv/Downloads
+file:///home/lv/Documents
+file:///home/lv/Music
+file:///home/lv/Pictures
+file:///home/lv/Videos
 file:///vms
-file:///home/triplea/Downloads
-file:///home/triplea/Documents
-file:///home/triplea/Music
-file:///home/triplea/Pictures
-file:///home/triplea/Videos
+file:///mnt/proxmox/share-1
+file:///mnt/hdd

@@ -1,0 +1,32 @@
+#!/bin/bash
+set -euo pipefail
+
+if command -v playerctl >/dev/null 2>&1; then
+  for player in $(playerctl -l 2>/dev/null); do
+    playerctl -p "$player" pause
+  done
+fi
+
+swaylock -f \
+  --image ~/Pictures/wallpapers/current/luffy-from-one-piece-5160x2160.jpeg \
+  --scaling fill \
+  --indicator-radius 120 \
+  --indicator-thickness 10 \
+  --ring-color 32344aaa \
+  --ring-clear-color e0af68aa \
+  --ring-ver-color 9ece6aaa \
+  --ring-wrong-color f7768eaa \
+  --key-hl-color 0b6db3ff \
+  --bs-hl-color e0af68ff \
+  --inside-color 1a1b2688 \
+  --inside-clear-color 1a1b2688 \
+  --inside-ver-color 1a1b2688 \
+  --inside-wrong-color 1a1b2688 \
+  --line-color 00000000 \
+  --separator-color 00000000 \
+  --text-color 7dcfffff \
+  --text-clear-color 7dcfffff \
+  --text-ver-color 7dcfffff \
+  --text-wrong-color 7dcfffff \
+  --font "JetBrainsMono Nerd Font" \
+  --font-size 28

@@ -1,0 +1,80 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+FG_COLOR="#bbbbbb"
+BG_COLOR="#111111"
+HLFG_COLOR="#111111"
+HLBG_COLOR="#bbbbbb"
+BORDER_COLOR="#222222"
+
+ROFI_OPTIONS=(-theme ~/.config/rofi/powermenu.rasi)
+ROFI_TEXT="Power Menu"
+
+enable_confirmation=false
+
+usage="$(basename "$0") [-h] [-c] -- display a menu for shutdown, reboot, lock etc.
+
+where:
+    -h  show this help text
+    -c  ask for user confirmation"
+
+while getopts "hc" option; do
+  case "${option}" in
+    h) echo "${usage}"; exit 0 ;;
+    c) enable_confirmation=true ;;
+    *) exit 1 ;;
+  esac
+done
+
+function command_exists() {
+  command -v "$1" &> /dev/null 2>&1
+}
+
+if ! command_exists systemctl; then
+  exit 1
+fi
+
+typeset -A menu
+
+menu=(
+  [󰤆  Shutdown]="systemctl poweroff"
+  [  Reboot]="systemctl reboot"
+  [  Hibernate]="systemctl hibernate"
+  [  Lock Screen]="~/.config/hypr/scripts/lockscreen"
+  [󰍃  Logout]="hyprctl dispatch 'hl.dsp.exit()'"
+  [  Cancel]=""
+)
+
+
+menu_nrows=${#menu[@]}
+menu_confirm="Shutdown Reboot Hibernate Logout"
+
+rofi_colors=""
+
+if ! command_exists rofi; then
+  exit 1
+fi
+
+rofi_colors=(-bc "${BORDER_COLOR}" -bg "${BG_COLOR}" -fg "${FG_COLOR}" \
+    -hlfg "${HLFG_COLOR}" -hlbg "${HLBG_COLOR}")
+selection="$(printf '%s\n' "${!menu[@]}" | sort | rofi -dmenu -i -lines "${menu_nrows}" \
+    -p "${ROFI_TEXT}" "${rofi_colors[@]}" "${ROFI_OPTIONS[@]}")"
+
+function ask_confirmation() {
+  confirmed=$(printf '%s\n' "Yes" "No" | rofi -dmenu -i -lines 2 -p "${selection}?" \
+    "${rofi_colors[@]}" "${ROFI_OPTIONS[@]}")
+  [ "${confirmed}" == "Yes" ] && confirmed=0
+
+  if [ "${confirmed}" == 0 ]; then
+    eval "${menu[${selection}]}" &
+  fi
+}
+
+if [[ $? -eq 0 && ! -z ${selection} ]]; then
+  if [[ "${enable_confirmation}" = true && \
+        ${menu_confirm} =~ (^|[[:space:]])"${selection}"($|[[:space:]]) ]]; then
+    ask_confirmation
+  else
+    eval "${menu[${selection}]}" &
+  fi
+fi

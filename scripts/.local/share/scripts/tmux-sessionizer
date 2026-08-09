@@ -19,7 +19,13 @@ if [[ -z $selected ]]; then
   exit 0
 fi
 
-selected_name=$(basename "$selected" | tr . -)
+selected_name=$(
+  if [[ "$(basename "$selected")" == "src" ]]; then
+    echo "$selected" | rev | cut -d'/' -f1-2 | rev | tr '/.' '-'
+  else
+    basename "$selected" | tr . -
+  fi
+)
 
 tmux_running=$(pgrep tmux)
 

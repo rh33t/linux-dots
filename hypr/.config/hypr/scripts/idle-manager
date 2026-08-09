@@ -1,0 +1,41 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+DIM=10
+LOCK=15
+SCREEN_OFF=20
+SUSPEND=30
+
+LOCKSCREEN="$HOME/.config/hypr/scripts/lockscreen"
+
+has_battery() {
+  find /sys/class/power_supply/ -maxdepth 1 -name 'BAT*' -print -quit | grep -q .
+}
+
+is_on_ac() {
+  grep -q "Charging\|Full" /sys/class/power_supply/BAT*/status 2>/dev/null
+}
+
+IDLE_ARGS=(-w)
+
+if command -v brightnessctl >/dev/null 2>&1; then
+  IDLE_ARGS+=(
+    timeout $((DIM * 60)) 'brightnessctl set 10%'
+    resume 'brightnessctl set 100%'
+  )
+fi
+
+IDLE_ARGS+=(
+  timeout $((LOCK * 60)) "$LOCKSCREEN"
+  resume "hyprctl dispatch 'hl.dsp.dpms({ action = \"on\" })'"
+  timeout $((SCREEN_OFF * 60)) "hyprctl dispatch 'hl.dsp.dpms({ action = \"off\" })'"
+  resume "hyprctl dispatch 'hl.dsp.dpms({ action = \"on\" })'"
+  before-sleep "$LOCKSCREEN"
+)
+
+if has_battery && ! is_on_ac; then
+  swayidle "${IDLE_ARGS[@]}" \
+    timeout $((SUSPEND * 60)) 'systemctl suspend'
+else
+  swayidle "${IDLE_ARGS[@]}"
+fi

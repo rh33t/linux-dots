@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+SCREEN_OFF=15
+LOCK=20
+SUSPEND=30
+
+LOCKSCREEN="$HOME/.config/sway/scripts/lockscreen"
+
+if ls /sys/class/power_supply/BAT* >/dev/null 2>&1; then
+  swayidle -w \
+    timeout $((SCREEN_OFF * 60)) 'swaymsg "output * dpms off"' \
+      resume 'swaymsg "output * dpms on"' \
+    timeout $((LOCK * 60)) "$LOCKSCREEN" \
+    timeout $((SUSPEND * 60)) 'systemctl suspend' \
+    before-sleep "$LOCKSCREEN"
+else
+  swayidle -w \
+    timeout $((SCREEN_OFF * 60)) 'swaymsg "output * dpms off"' \
+      resume 'swaymsg "output * dpms on"' \
+    timeout $((LOCK * 60)) "$LOCKSCREEN" \
+    before-sleep "$LOCKSCREEN"
+fi

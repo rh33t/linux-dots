@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+
+set -uo pipefail
+
+DESKTOP_DIR="$HOME/.local/share/applications"
+
+WEBAPPS=(
+  "YouTube|https://youtube.com/"
+  "GitHub|https://github.com/"
+)
+
+for entry in "${WEBAPPS[@]}"; do
+  IFS='|' read -r name url <<<"$entry"
+  if [[ -f "$DESKTOP_DIR/$name.desktop" ]]; then
+    echo "Skipping $name (already installed)"
+    continue
+  fi
+  webapp-install "$name" "$url" ""
+done

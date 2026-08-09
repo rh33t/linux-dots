@@ -15,15 +15,15 @@ alias p='python3'
 alias k='kubectl'
 alias opx='xdg-open'
 alias sdm='sudo dmesg'
-alias pysrv='python3 -m http.server'
+alias www='python3 -m http.server'
 alias dir='dir --color=auto'
 alias l='eza -l --color=always --group-directories-first --icons --git'
 alias la='eza -a --color=always --group-directories-first --icons'
 alias ls='eza -al --color=always --group-directories-first --icons --git'
 alias lt='eza -aT --color=always --group-directories-first --icons auto'
 alias wget='wget -c'
-alias pbcopy='xsel --input --clipboard'
-alias pbpaste='xsel --output --clipboard'
+alias pbcopy='wl-copy'
+alias pbpaste='wl-paste'
 alias pfn='ping ping-eu.ds.on.epicgames.com'
 alias dccdi='docker rmi $(docker images -f "dangling=true" -q)'
 alias dcit='docker run --rm -it -v /tmp:/tmp -v "$PWD":/pwn -w /pwn'
@@ -51,7 +51,8 @@ alias pac-search='pacman -Slq | fzf --multi --preview "pacman -Si {1}" --preview
 # custom functions
 lxc() { [[ -z "$1" ]] && echo "usage: lxc <id> [port]" && return 1; ssh -i ~/labs/sysadmin/ssh_keys/pve_guest -p "${2:-22}" root@192.168.10."$1"; }
 mcd() { mkdir -p "$1" && cd "$1"; }
-fcopy() { [[ -f "$1" ]] && cat "$1" | xclip -selection clipboard; }
+mt() { cd "$(mktemp -d)"; }
+fcopy() { [[ -f "$1" ]] && wl-copy < "$1"; }
 cheater() { curl -s "cheat.sh/$(printf '%s' "$*" | tr ' ' '+')"; }
 quickcommit() { local b=$(git rev-parse --abbrev-ref HEAD 2>/dev/null); git add -A && git commit -m "${1:-"chore($(basename $PWD)): sync on $b at $(date +%Y-%m-%dT%H:%M:%S)"}" && git push origin "$b"; }
 termbin(){ [ -t 0 ] && [ -f "$1" ] && cat "$1" | nc termbin.com 9999 || nc termbin.com 9999; }

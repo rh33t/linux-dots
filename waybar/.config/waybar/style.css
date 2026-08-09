@@ -1,0 +1,136 @@
+* {
+    font-family: Roboto, "JetBrainsMono Nerd Font";
+    font-weight: 500;
+    font-size: 16px;
+    min-height: 0;
+    border: none;
+    border-radius: 0;
+}
+
+window#waybar {
+    background-color: rgba(16, 25, 40, 0.9);
+}
+
+#waybar {
+    margin: 0;
+}
+
+#tray {
+    margin: 0;
+}
+
+#tray > widget {
+    margin: 0;
+}
+
+#tray image {
+    -gtk-icon-transform: scale(1);
+}
+
+#workspaces {
+    margin: 0;
+    padding: 0;
+}
+
+#workspaces button {
+    font-family: Roboto, "JetBrainsMono Nerd Font";
+    padding: 3px;
+    background: transparent;
+    color: #deddda;
+    border-bottom: 3px solid transparent;
+    margin: 0;
+}
+
+#workspaces button.active {
+    color: #6c9bd8;
+}
+
+#workspaces button.urgent {
+    background-color: #B23A48;
+    color: #ffffff;
+}
+
+#workspaces button:hover {
+    background: rgba(98, 160, 234, 0.15);
+}
+
+#workspaces button.special {
+  padding: 0 8px;
+}
+
+#submap {
+    font-family: Roboto, "JetBrainsMono Nerd Font";
+    padding: 0 8px;
+    margin: 2px 4px;
+    background-color: #6c9bd8;
+    color: #ffffff;
+    font-weight: 500;
+}
+
+#clock,
+#pulseaudio,
+#network,
+#battery,
+#custom-spotify,
+#custom-microphone,
+#custom-openvpn,
+#tray {
+    font-family: Roboto, "JetBrainsMono Nerd Font";
+    padding: 0 4px;
+    color: #deddda;
+}
+
+#battery.warning {
+    color: #FBE58A;
+}
+
+#battery.critical {
+    color: #ed333b;
+}
+
+#battery.charging,
+#battery.plugged {
+    color: #1db954;
+}
+
+#custom-spotify {
+    color: #1db954;
+    font-style: italic;
+    font-weight: bold;
+    padding-right: 12px;
+}
+
+#custom-openvpn {
+    color: #ED7F22;
+    font-style: italic;
+    font-weight: bold;
+}
+
+#pulseaudio.muted, #network.disconnected {
+    color: #707880;
+}
+
+#custom-microphone {
+    color: #00FF00;
+    padding: 0 20px;
+}
+
+#custom-microphone.muted {
+    color: #FF0000;
+}
+
+#network {
+    font-style: normal;
+    padding: 0 8px;
+}
+
+#clock {
+  font-weight: 500;
+}
+
+tooltip {
+    background-color: rgba(16, 25, 40, 0.95);
+    color: #deddda;
+    border: 1px solid #62a0ea;
+}
+

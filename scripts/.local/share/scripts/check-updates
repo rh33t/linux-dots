@@ -1,11 +1,11 @@
-#!/bin/bash
+#!/usr/bin/env bash
 repo=$(checkupdates 2>/dev/null | wc -l)
 aur=$(yay -Qua 2>/dev/null | wc -l)
 total=$((repo + aur))
 
 if [[ $total -gt 0 ]]; then
-  notify-send -u normal "Updates Available" "$repo repo, $aur AUR"
+  notify-send -u normal -i system-software-update "Updates Available" "$repo repo, $aur AUR"
 else
-  notify-send -u low "System up-to-date" "No updates available"
+  notify-send -u low -i system-software-update "System up-to-date" "No updates available"
 fi
 

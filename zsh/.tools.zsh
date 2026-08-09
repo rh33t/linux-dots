@@ -14,10 +14,7 @@ export PATH="$PATH:$HOME/.cargo/bin"
 
 # pnpm
 export PNPM_HOME="$HOME/.local/share/pnpm"
-case ":$PATH:" in
-  *":$PNPM_HOME:"*) ;;
-  *) export PATH="$PNPM_HOME:$PATH" ;;
-esac
+export PATH="$PNPM_HOME/bin:$PATH"
 
 # Composer
 export PATH="$PATH:$HOME/.config/composer/vendor/bin"
@@ -28,7 +25,7 @@ export PYENV_ROOT="$HOME/.pyenv"
 eval "$(pyenv init - zsh)"
 
 # Vagrant
-export VAGRANT_HOME="/vms/vagrant"
+export VAGRANT_HOME="/mnt/hdd/vms/vagrant"
 fpath=(/opt/vagrant/embedded/gems/gems/vagrant-2.4.9/contrib/zsh $fpath)
 compinit
 
@@ -37,9 +34,6 @@ export CHROME_EXECUTABLE=/usr/bin/google-chrome-stable
 
 # nvm
 # source /usr/share/nvm/init-nvm.sh
-
-# helm completion
-# alias soh='source <(helm completion zsh)'
 
 # Android SDK build-tools (latest version)
 export PATH="$PATH:$HOME/sdks/Android/Sdk/build-tools/37.0.0"
