@@ -10,8 +10,8 @@ get_active_interface() {
   iface=$(ip route get 8.8.8.8 2>/dev/null | grep -oP 'dev \K\S+')
 
   # Skip VPN interfaces
-  if [[ "$iface" =~ ^(tun|tap|wg) ]]; then
-    iface=$(ip route show default | grep -v 'tun\|tap\|wg' | awk '{print $5}' | head -n1)
+  if [[ "$iface" =~ ^(tun|tap|wg|proton) ]]; then
+    iface=$(ip route show default | grep -v 'tun\|tap\|wg\|proton' | awk '{print $5}' | head -n1)
   fi
 
   echo "$iface"
@@ -19,12 +19,5 @@ get_active_interface() {
 
 IFACE=$(get_active_interface)
 
-# Determine interface type
-if [[ -d "/sys/class/net/$IFACE/wireless" ]]; then
-  IFACE_TYPE="wireless"
-else
-  IFACE_TYPE="wired"
-fi
-
-export IFACE_TYPE
+export IFACE
 polybar -r default &

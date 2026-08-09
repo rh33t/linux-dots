@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # Replace with your audio source; Try :
 # pactl list sources | grep "Name: " | cut -d ":" -f2 | tr -d " "
@@ -14,10 +14,10 @@ toggle_mute() {
 
   if [[ $status == "no" ]]; then
     pactl set-source-mute "$source" true
-    notify-send "  Mic muted"
+    notify-send -i audio-input-microphone-muted "Mic muted"
   else
     pactl set-source-mute "$source" false
-    notify-send " Mic unmuted"
+    notify-send -i audio-input-microphone "Mic unmuted"
   fi
 }
 

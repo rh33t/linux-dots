@@ -1,0 +1,24 @@
+anchor=top-right
+group-by=app-name,summary,body
+default-timeout=5000
+width=350
+outer-margin=5
+padding=10,15
+border-size=2
+max-icon-size=32
+icon-path=/usr/share/icons/Tela-dark:/usr/share/icons/Papirus
+font=sans-serif 15px
+
+text-color=#a9b1d6
+border-color=#7aa2f7
+background-color=#1a1b26
+
+[mode=do-not-disturb]
+invisible=true
+
+[mode=do-not-disturb app-name=notify-send]
+invisible=false
+
+[urgency=critical]
+default-timeout=0
+layer=overlay

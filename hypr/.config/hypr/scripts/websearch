@@ -1,0 +1,12 @@
+#!/bin/bash
+q=$(echo "" | rofi -dmenu -p "Search " -config ~/.config/rofi/rofidmenu.rasi)
+[ -n "$q" ] || exit
+
+if [[ "$q" =~ ^https?:// ]] || [[ "$q" =~ ^[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}(/|$) ]]; then
+  [[ "$q" =~ ^https?:// ]] || q="https://$q"
+  xdg-open "$q"
+else
+  xdg-open "https://duckduckgo.com/?q=$q"
+fi
+sleep 0.3
+hyprctl dispatch 'hl.dsp.focus({ urgent_or_last = true })'

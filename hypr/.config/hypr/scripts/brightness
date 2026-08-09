@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+WOBSOCK="${WOBSOCK:-${XDG_RUNTIME_DIR:-/tmp}/wob.sock}"
+
+command -v brightnessctl >/dev/null 2>&1 || { echo "brightnessctl not found" >&2; exit 1; }
+
+report() {
+  local bper
+  bper=$(brightnessctl --machine-readable | cut -d, -f4 | tr -d '%')
+  echo "$bper" > "$WOBSOCK"
+}
+
+case "${1:-}" in
+  up)
+    brightnessctl set +5%
+    report
+    ;;
+  down)
+    brightnessctl set 5%-
+    report
+    ;;
+  *)
+    echo "Usage: $0 up|down" >&2
+    exit 1
+    ;;
+esac

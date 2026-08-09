@@ -1,0 +1,81 @@
+#!/usr/bin/env bash
+
+ADJECTIVES=(
+  silent swift dark iron pale cold sharp wild ancient
+  cosmic steel frozen blazing hollow crimson ashen bright
+  calm lone obsidian phantom rogue savage void wandering
+  broken distant emerald fallen gilded hidden jagged lunar
+  mystic shaded veiled amber azure cobalt dusk ethereal
+  feral ivory jade onyx radiant serene twilight verdant
+)
+
+NOUNS=(
+  wolf raven crow fox blade echo forge hawk knight lance
+  scout shard smoke spark thorn torch trail vault cipher
+  comet dagger ember glyph haven nexus omen prism quill
+  reaper shade talon umbra wisp arrow beacon envoy herald
+  keystone mantle oracle pillar realm sigil valor wraith
+  summit river stone peak cloud drift current zenith
+)
+
+usage() {
+  echo "Usage: $(basename "$0") [-n COUNT] [-s SEPARATOR] [-c STYLE] [-N]"
+  echo ""
+  echo "  -n COUNT   number of suggestions, must be a positive integer (default: 1)"
+  echo "  -s STYLE   separator: none | underscore | dot (default: none)"
+  echo "  -c STYLE   capitalize: none | first | words | upper (default: none)"
+  echo "  -N         disable number suffix"
+  echo "  -h         show this help"
+  exit 0
+}
+
+die() {
+  echo "error: $*" >&2
+  exit 1
+}
+
+count=1
+sep=""
+cap="none"
+number=true
+
+while getopts ":n:s:c:Nh" opt; do
+  case $opt in
+  n) count=$OPTARG ;;
+  s) sep=$OPTARG ;;
+  c) cap=$OPTARG ;;
+  N) number=false ;;
+  h) usage ;;
+  :) die "-$OPTARG requires an argument (see -h for usage)" ;;
+  \?) die "unknown flag: -$OPTARG (see -h for usage)" ;;
+  esac
+done
+
+[[ $count =~ ^[1-9][0-9]*$ ]] || die "-n must be a positive integer, got: $count"
+
+case $sep in
+none | "") sep="" ;;
+underscore) sep="_" ;;
+dot) sep="." ;;
+*) die "-s must be one of: none, underscore, dot" ;;
+esac
+
+case $cap in
+none | first | words | upper) ;;
+*) die "-c must be one of: none, first, words, upper" ;;
+esac
+
+for ((i = 0; i < count; i++)); do
+  adj=${ADJECTIVES[$RANDOM % ${#ADJECTIVES[@]}]}
+  noun=${NOUNS[$RANDOM % ${#NOUNS[@]}]}
+  suffix=$((RANDOM % 900 + 100))
+
+  case $cap in
+  words) base="${adj^}${sep}${noun^}" ;;
+  first) base="${adj^}${sep}${noun}" ;;
+  upper) base="${adj^^}${sep}${noun^^}" ;;
+  *) base="${adj}${sep}${noun}" ;;
+  esac
+
+  $number && echo "${base}${suffix}" || echo "${base}"
+done

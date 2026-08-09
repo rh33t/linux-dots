@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 CHAT_ID="1551732857"
 MESSAGE="${*:-No message provided}"

@@ -1,8 +1,8 @@
 # appearance
-theme = "triplea"
-font-family = "Agave Nerd Font"
-font-size = 15
-adjust-cell-height = 6
+theme = "nightfall"
+font-family = "JetBrainsMono Nerd Font"
+font-size = 14
+adjust-cell-height = 2
 
 # window settings
 window-decoration = false

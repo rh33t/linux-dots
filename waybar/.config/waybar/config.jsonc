@@ -1,0 +1,123 @@
+{
+  "output": "HDMI-A-1",
+  "layer": "top",
+  "position": "top",
+  "height": 28,
+  "spacing": 0,
+
+  "modules-left": ["hyprland/workspaces", "hyprland/submap"],
+  "modules-center": ["clock"],
+  "modules-right": [
+    "custom/microphone",
+    "custom/openvpn",
+    "network",
+    "custom/spotify",
+    "pulseaudio",
+    "battery",
+    "tray"
+  ],
+
+  "network": {
+    // Pinned to the physical link: ProtonVPN's ipv6leakintrf0 grabs the default
+    // IPv6 route and has no v4 address, so waybar would show its raw ifname.
+    "interface": "eth0",
+    "format": "{ifname}",
+    "format-wifi": "{essid} ({signalStrength}%)  ",
+    "format-ethernet": "{bandwidthDownBytes}  |  {bandwidthUpBytes}",
+    "format-disconnected": "Disconnected",
+    "interval": 30,
+    "max-length": 50
+  },
+
+  "hyprland/workspaces": {
+    "on-click": "activate",
+    "all-outputs": true,
+    "show-special": false,
+    "format": "{icon}",
+    "format-icons": {
+      "default": "",
+      "1": "1",
+      "2": "2",
+      "3": "3",
+      "4": "4",
+      "5": "5",
+      "6": "6",
+      "7": "7",
+      "8": "8",
+      "9": "9",
+      "10": "0",
+      "11": "11",
+      "active": "󱓻"
+    }
+  },
+
+  "hyprland/submap": {
+    "format": "  {}",
+    "tooltip": false
+  },
+
+  "clock": {
+    "interval": 1,
+    "format": "{:%a %d  %I:%M %p}",
+    "format-alt": "{:%Y-%m-%d  %H:%M:%S}",
+    "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
+    "calendar": {
+      "iso8601": true
+    }
+  },
+
+  "custom/microphone": {
+    "exec": "~/.config/waybar/indicators/microphone.sh status",
+    "return-type": "json",
+    "interval": 3,
+    "on-click": "~/.config/waybar/indicators/microphone.sh toggle"
+  },
+
+  "custom/openvpn": {
+    "exec": "~/.config/waybar/indicators/openvpn_status.sh",
+    "interval": 5
+  },
+
+  "custom/network": {
+    "exec": "~/.config/waybar/indicators/network_speed.sh",
+    "return-type": "json",
+    "interval": 3
+  },
+
+  "custom/spotify": {
+    "exec": "~/.config/waybar/indicators/spotify_status.sh",
+    "exec-on-event": false,
+    "interval": 5,
+    "format": "  {}",
+    "on-click": "hyprctl dispatch 'hl.dsp.focus({ window = \"class:^(spotify)$\" })'",
+    "on-click-right": "playerctl play-pause -p spotify",
+    "on-scroll-down": "playerctl previous -p spotify",
+    "on-scroll-up": "playerctl next -p spotify"
+  },
+
+  "pulseaudio": {
+    "scroll-step": 5,
+    "format": "{volume}%",
+    "format-bluetooth": "{volume}%",
+    "format-muted": "muted",
+    "on-click": "pactl set-sink-mute @DEFAULT_SINK@ toggle",
+    "on-click-right": "pavucontrol"
+  },
+
+  "battery": {
+    "states": {
+      "warning": 30,
+      "critical": 15
+    },
+    "format": "{icon}  {capacity}%",
+    "format-charging": "  {capacity}%",
+    "format-plugged": "  {capacity}%",
+    "format-full": "{icon}  full",
+    "format-icons": ["", "", "", "", ""]
+  },
+
+  "tray": {
+    "icon-size": 16,
+    "spacing": 10
+  }
+}
