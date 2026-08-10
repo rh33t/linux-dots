@@ -1,6 +1,4 @@
-# .dotfiles
-
-This repository contains my personal configuration files (dotfiles) for various applications and tools on my arch linux setup.
+Personal Arch Linux configuration files for Git, Firefox, tmux, Vim, and Zsh.
 
 ## Screenshot
 ![Desktop Overview](shot.png)
